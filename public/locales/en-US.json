@@ -556,8 +556,20 @@
 	"twine121": {
 		"startScreen": {
 			"title": "TWINE121",
-			"imageAlt": "TWINE121 start screen: the Twine121 nurse mascot in an action pose beside the TWINE121 wordmark, with the version, last updated date, and the Twine project it is based on.",
-			"repoLinkLabel": "Original project on GitHub: github.com/klembot/twinejs",
+			"pillLabel": "A Teaching Fork of Twine",
+			"wordmarkPrefix": "TWINE",
+			"wordmarkSuffix": "121",
+			"subtitle": "A teaching fork of Twine, built for GAME 121.",
+			"imageAlt": "Twine121 mascot: a nurse-themed character in an action pose, sword drawn.",
+			"meta": {
+				"versionLabel": "Version",
+				"lastUpdatedLabel": "Last updated",
+				"basedOnLabel": "Based on",
+				"originalProjectLabel": "Original project"
+			},
+			"opensInNewTabHint": "opens in new tab",
+			"startButton": "Start",
+			"clickAnywhereHint": "Click anywhere",
 			"reopen": "About Twine121"
 		},
 		"aiDisclaimer": {

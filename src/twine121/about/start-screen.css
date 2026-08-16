@@ -1,14 +1,109 @@
+/* Self-hosted so the start screen never depends on a network fetch to
+Google Fonts--an offline Electron launch shouldn't show a fallback face.
+Latin subset only; this UI is English-only. */
+@font-face {
+	font-display: swap;
+	font-family: 'Twine121 Display';
+	font-style: normal;
+	font-weight: 700;
+	src: url('./fonts/mplus-rounded-1c-700.woff2') format('woff2');
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Twine121 Display';
+	font-style: normal;
+	font-weight: 900;
+	src: url('./fonts/mplus-rounded-1c-900.woff2') format('woff2');
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Twine121 Meta';
+	font-style: normal;
+	font-weight: 400;
+	src: url('./fonts/rajdhani-400.woff2') format('woff2');
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Twine121 Meta';
+	font-style: normal;
+	font-weight: 600;
+	src: url('./fonts/rajdhani-600.woff2') format('woff2');
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Twine121 Meta';
+	font-style: normal;
+	font-weight: 700;
+	src: url('./fonts/rajdhani-700.woff2') format('woff2');
+}
+
+@keyframes twine121-start-screen-pop {
+	from {
+		opacity: 0;
+		transform: translateY(18px) scale(0.97);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes twine121-start-screen-hint-pulse {
+	0%,
+	100% {
+		opacity: 0.35;
+	}
+
+	50% {
+		opacity: 1;
+	}
+}
+
+@keyframes twine121-start-screen-float {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-14px);
+	}
+}
+
+@keyframes twine121-start-screen-button-press {
+	0% {
+		transform: scale(1);
+	}
+
+	40% {
+		transform: scale(0.92);
+	}
+
+	70% {
+		transform: scale(1.04);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
 .twine121-start-screen {
 	align-items: center;
 	/* Near-black at half opacity, so the app dims but stays visible around the
-	artwork. start.png has a transparent margin with a soft drop shadow baked in,
-	which now reads as a glow against whatever shows through. */
+	frame. */
 	background: rgba(5, 5, 5, 0.5);
 	bottom: 0;
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	left: 0;
+	overflow: hidden;
 	padding: 24px;
 	position: fixed;
 	right: 0;
@@ -17,27 +112,242 @@
 	z-index: 2000;
 }
 
-/* Wraps the image tightly so the hotspot's percentages resolve against the
-artwork itself, not against letterboxed space beside it. */
-.twine121-start-screen-art {
-	line-height: 0;
-	position: relative;
-}
-
-.twine121-start-screen-art img {
-	display: block;
-	max-height: calc(100vh - 48px);
-	max-width: 100%;
-	width: auto;
-}
-
-.twine121-start-screen-hotspot {
+.twine121-start-screen-dots {
+	background-image: radial-gradient(
+		circle,
+		rgba(255, 255, 255, 0.08) 1.6px,
+		transparent 1.6px
+	);
+	background-size: 26px 26px;
+	inset: 0;
+	opacity: 0.28;
+	pointer-events: none;
 	position: absolute;
 }
 
-/* The link text is drawn into the artwork; this label exists for screen readers
-and is positioned offscreen rather than hidden, so it stays reachable. */
-.twine121-start-screen-hotspot span {
+.twine121-start-screen-frame {
+	animation: twine121-start-screen-pop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)
+		both;
+	aspect-ratio: 1600 / 845;
+	background: linear-gradient(
+		160deg,
+		rgba(40, 40, 44, 0.98) 0%,
+		rgba(24, 24, 28, 0.98) 45%,
+		rgba(14, 14, 17, 0.98) 100%
+	);
+	border: 1.5px solid rgba(255, 255, 255, 0.13);
+	border-radius: 16px;
+	box-shadow: 0 40px 110px rgba(0, 0, 0, 0.75), 0 0 90px rgba(255, 255, 255, 0.05);
+	container-type: size;
+	cursor: default;
+	max-height: calc(100vh - 48px);
+	max-width: 1600px;
+	position: relative;
+	width: 100%;
+	z-index: 2;
+}
+
+.twine121-start-screen-texture {
+	background: radial-gradient(
+		ellipse 60% 70% at 72% 30%,
+		rgba(255, 255, 255, 0.06) 0%,
+		transparent 70%
+	);
+	border-radius: inherit;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	position: absolute;
+}
+
+.twine121-start-screen-head {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	gap: 2cqh;
+	left: 26%;
+	position: absolute;
+	right: 2.5%;
+	top: 6.5%;
+	z-index: 3;
+}
+
+.twine121-start-screen-pill-row {
+	padding-left: 12.5%;
+	width: 100%;
+}
+
+.twine121-start-screen-pill {
+	background: rgba(255, 255, 255, 0.066);
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 9999px;
+	color: #fff;
+	display: inline-flex;
+	font-family: 'Twine121 Display', sans-serif;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	padding: 4px 14px;
+	text-transform: uppercase;
+}
+
+.twine121-start-screen-wordmark {
+	color: #fff;
+	font-family: 'Twine121 Display', sans-serif;
+	font-size: min(19.5cqh, 8.3cqw);
+	font-weight: 900;
+	letter-spacing: 0.005em;
+	line-height: 0.92;
+	text-align: right;
+	text-shadow: 0 0 60px rgba(255, 255, 255, 0.25), 0 3px 12px rgba(0, 0, 0, 0.9);
+	white-space: nowrap;
+	width: 100%;
+}
+
+.twine121-start-screen-wordmark span {
+	color: rgba(255, 255, 255, 0.45);
+}
+
+.twine121-start-screen-info {
+	display: flex;
+	flex-direction: column;
+	gap: 3.5cqh;
+	left: 56%;
+	position: absolute;
+	right: 2.5%;
+	top: 38%;
+	z-index: 3;
+}
+
+.twine121-start-screen-subtitle {
+	color: rgba(255, 255, 255, 0.82);
+	font-family: 'Twine121 Meta', sans-serif;
+	font-size: min(3.5cqh, 2.5cqw);
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	line-height: 1.35;
+	margin: 0;
+}
+
+.twine121-start-screen-meta {
+	column-gap: 2cqw;
+	display: grid;
+	font-family: 'Twine121 Meta', sans-serif;
+	font-size: 2.6cqh;
+	grid-template-columns: 14cqw 1fr;
+	letter-spacing: 0.16em;
+	margin: 0;
+	row-gap: 1.4cqh;
+	text-transform: uppercase;
+}
+
+.twine121-start-screen-meta-label {
+	color: rgba(255, 255, 255, 0.52);
+	font-weight: 400;
+	margin: 0;
+}
+
+.twine121-start-screen-meta-value {
+	color: rgba(255, 255, 255, 0.9);
+	font-weight: 700;
+	margin: 0;
+}
+
+.twine121-start-screen-meta-value a {
+	color: rgba(255, 255, 255, 0.9);
+	letter-spacing: 0.04em;
+	text-decoration: none;
+	text-transform: none;
+}
+
+.twine121-start-screen-meta-value a:hover,
+.twine121-start-screen-meta-value a:focus-visible {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.twine121-start-screen-meta-value a:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: 3px;
+}
+
+.twine121-start-screen-cta {
+	align-items: center;
+	display: flex;
+	gap: 3cqh;
+	left: 74%;
+	position: absolute;
+	top: 76%;
+	transform: translateX(-50%);
+	white-space: nowrap;
+	z-index: 3;
+}
+
+.twine121-start-screen-start-button {
+	align-items: center;
+	background: linear-gradient(180deg, #f5f5f5, #b9b9b9);
+	border: 2.5px solid #fff;
+	border-radius: 13px;
+	box-shadow: 0 4px 18px rgba(255, 255, 255, 0.18), 0 2px 4px rgba(0, 0, 0, 0.45);
+	color: #111;
+	cursor: pointer;
+	display: inline-flex;
+	font-family: 'Twine121 Display', sans-serif;
+	font-size: 15px;
+	font-weight: 900;
+	gap: 7px;
+	height: 48px;
+	justify-content: center;
+	letter-spacing: 0.05em;
+	overflow: hidden;
+	padding: 0 44px;
+	position: relative;
+	user-select: none;
+}
+
+.twine121-start-screen-start-button::before {
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.32), transparent);
+	border-radius: inherit;
+	content: '';
+	height: 52%;
+	left: 0;
+	pointer-events: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.twine121-start-screen-start-button.is-pressed {
+	animation: twine121-start-screen-button-press 0.2s ease-out both;
+}
+
+.twine121-start-screen-start-icon {
+	font-size: 12px;
+}
+
+.twine121-start-screen-hint {
+	animation: twine121-start-screen-hint-pulse 2.2s ease-in-out infinite;
+	color: rgba(255, 255, 255, 0.55);
+	font-family: 'Twine121 Meta', sans-serif;
+	font-size: 2.4cqh;
+	letter-spacing: 0.28em;
+	text-transform: uppercase;
+}
+
+/* z-index above the head/info/cta text (each z-index: 3)--the mascot is meant
+to overlap the text partially, by design. */
+.twine121-start-screen-mascot {
+	animation: twine121-start-screen-float 4s ease-in-out infinite;
+	bottom: 0;
+	filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.8));
+	left: 5.6%;
+	max-width: none;
+	pointer-events: none;
+	position: absolute;
+	width: 66cqw;
+	z-index: 6;
+}
+
+.twine121-visually-hidden {
 	height: 1px;
 	left: -9999px;
 	overflow: hidden;
@@ -45,7 +355,11 @@ and is positioned offscreen rather than hidden, so it stays reachable. */
 	width: 1px;
 }
 
-.twine121-start-screen-hotspot:focus-visible {
-	outline: 2px solid #fff;
-	outline-offset: 3px;
+@media (prefers-reduced-motion: reduce) {
+	.twine121-start-screen-frame,
+	.twine121-start-screen-hint,
+	.twine121-start-screen-mascot,
+	.twine121-start-screen-start-button.is-pressed {
+		animation: none;
+	}
 }

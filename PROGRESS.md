@@ -1,5 +1,73 @@
 # Twine121 — Progress
 
+## 2026-08-16 (app icon, first packaged Mac/Windows builds, GitHub release)
+- Accomplished: gave Twine121 its own app icon (`assets/ICON_v2.png`, 1024x1024, the nurse
+  mascot on a solid blue field with no wordmark) after an earlier draft (`assets/ICON.png`, a
+  wordmark + dense crosshatching on a two-tone gray inset) failed a small-size check--simulated
+  downscale to 32px and 16px showed it dissolving into unreadable gray noise. v2 holds up as a
+  clear silhouette at both sizes. Wired it into the actual build (`icons/app-release.png` for
+  macOS, and a hand-generated multi-resolution `icons/app-release-no-padding.ico` for Windows--
+  no ImageMagick on this machine, so used Python/Pillow instead, which embeds correctly). First
+  successful packaged builds for both platforms: `Twine121-2.12.0-macOS.dmg` (universal,
+  arm64+x64) and `Twine121-2.12.0-Windows.exe` (NSIS installer). Tagged `1.0.0` (matching
+  `twine121Info.version`, not package.json's upstream 2.12.0) and published both installers as
+  GitHub Release assets on `github.com/ProfChiu/twinejs`. Also rewrote the root `README.md` with
+  a Twine121 section and a Download pointer to this repo's own Releases page--framed generically
+  as "a friendlier fork of Twine," no SCAD or class-number mentions, per direct instruction.
+  Committed and pushed everything still outstanding from the day's earlier work too (the
+  HTML/CSS start screen rebuild, self-hosted fonts, backdrop transparency)--none of it had been
+  committed yet.
+- Decisions: the first packaging attempt (unsigned Mac + Windows, no code-signing creds present)
+  failed partway through the Windows step with a corrupted `resources/app.asar` and a stray
+  Dropbox-conflict-looking file (`dxcompiler 2.dll`)--root cause is that this project directory
+  lives inside a live Dropbox sync folder, and Dropbox appears to interfere with electron-builder
+  writing large intermediate files mid-build (this likely also explains an earlier corrupted
+  Electron zip download the same day). Fix: pointed electron-builder's `directories.output` at a
+  scratch path outside Dropbox for the packaging step only (source files, web build, and
+  electron-main build stay in place)--rebuild succeeded clean on the first retry. Left
+  `assets/ICON.png` (the rejected v1) and `ReferenceStartScreen/` untracked rather than
+  committing dead-end material, matching how `Mockup.psd` was already handled.
+- Verified: `tsc --noEmit` and `npm run lint` clean before committing; extracted the built
+  macOS app's actual `.icns` back out to a PNG and visually confirmed the intended artwork is
+  what's embedded, not a stale or wrong file.
+- Next: neither installer is code-signed (no Apple Developer or Windows signing cert configured
+  here)--students will see a one-time Gatekeeper/SmartScreen warning, noted in the README. Say
+  the word if a real signing credential becomes available later.
+
+## 2026-08-16 (start screen rebuilt as real HTML/CSS, not a PNG)
+- Accomplished: replaced the flat `start.png` start screen with a genuine markup version, ported
+  from the Claude Design export in `ReferenceStartScreen/TWINE121-title-snippet.html` (the
+  17.8 MB `-standalone.html` in that folder turned out to be an internal Claude Design bundler
+  artifact--`__bundler/manifest` script tags, no usable markup--so it was not used). Version,
+  date, "Based on Twine 2.12.0", and the GitHub link are now real text/`<a>` driven by
+  `twine121Info`, not pixels baked into an image--the maintenance debt logged yesterday
+  ("re-export the PNG on every version bump") is gone; bumping `twine121-info.ts` is enough.
+  Layout uses CSS container-query units (`cqw`/`cqh`) inside the card, so it scales cleanly with
+  window size instead of just clamping like the old raster image did. Added a subtle floating
+  animation on the mascot and a short scale-pulse on the Start button on click (both skipped
+  under `prefers-reduced-motion`); the Start button now animates for ~200ms before the screen
+  closes rather than closing instantly. `assets/mascot/nurse-action.png` in the reference export
+  turned out to be byte-identical to `start-pose1.png`, already vendored--no new art needed.
+  M PLUS Rounded 1c (700/900) and Rajdhani (400/600/700), Latin subset only, are self-hosted at
+  `src/twine121/about/fonts/` (~90 KB total) so the screen never depends on a live fetch to
+  Google Fonts.
+- Decisions: kept everything for this screen self-contained under `src/twine121/about/`--markup,
+  CSS, and fonts together--specifically so it stays easy to keep editing (the professor's ask).
+  Meta rows (Version/Last updated/Based on/Original project) are a plain array literal in
+  `start-screen.tsx`; adding a row is adding one object plus one locale key, no new abstraction.
+  Fetched full Latin-subset font files rather than hyper-subsetting to today's exact on-screen
+  characters--the professor plans to keep changing this copy, and a subset locked to today's text
+  would silently show a fallback face for any future character outside it.
+- Verified live in a real browser at two window widths: both self-hosted font families report
+  loaded (`document.fonts.check`) and are actually applied (`getComputedStyle().fontFamily`); the
+  mascot carries the float animation; clicking the original-project link opens
+  `github.com/klembot/twinejs` in a new tab and leaves the screen up; clicking the Start button
+  shows the `is-pressed` class before the screen closes (confirmed screen stays up through the
+  ~200ms animation, then closes); clicking the background dismisses immediately. 277 suites /
+  1967 tests, tsc and eslint clean.
+- Next: nothing outstanding on the start screen. `ReferenceStartScreen/` (still untracked, 18 MB)
+  is now fully superseded--say the word to delete it. Everything here is still uncommitted.
+
 ## 2026-08-16 (start screen backdrop + first push to GitHub)
 - Accomplished: start screen backdrop is now 50% transparent (`rgba(5, 5, 5, 0.5)` instead of
   solid `#050505`), so the library and toolbar show through dimmed around the artwork — verified

@@ -10,14 +10,31 @@ describe('<StartScreen>', () => {
 		return onClose;
 	}
 
-	it('shows the start artwork with alt text', () => {
+	it('shows the wordmark, subtitle, and mascot', () => {
 		renderComponent();
+
+		// The wordmark is split across a text node and a <span> (prefix + dimmed
+		// suffix), so its full text has to be read off the element rather than
+		// matched with getByText, which only matches a single element's content.
+		expect(document.querySelector('.twine121-start-screen-wordmark')).toHaveTextContent(
+			'twine121.startScreen.wordmarkPrefixtwine121.startScreen.wordmarkSuffix'
+		);
+		expect(screen.getByText('twine121.startScreen.subtitle')).toBeInTheDocument();
 		expect(
 			screen.getByAltText('twine121.startScreen.imageAlt')
 		).toBeInTheDocument();
 	});
 
-	it('closes when clicked anywhere', () => {
+	it('shows every meta row backed by twine121Info', () => {
+		renderComponent();
+
+		expect(screen.getByText(twine121Info.version)).toBeInTheDocument();
+		expect(
+			screen.getByText(`Twine ${twine121Info.upstreamVersion}`)
+		).toBeInTheDocument();
+	});
+
+	it('closes when the background is clicked', () => {
 		const onClose = renderComponent();
 
 		fireEvent.click(screen.getByRole('dialog'));
@@ -34,7 +51,7 @@ describe('<StartScreen>', () => {
 		}
 	);
 
-	describe('the GitHub link hotspot', () => {
+	describe('the original project link', () => {
 		it('links to the upstream repo in a new window', () => {
 			renderComponent();
 
@@ -44,22 +61,39 @@ describe('<StartScreen>', () => {
 			expect(link).toHaveAttribute('target', '_blank');
 		});
 
-		it('is positioned over the link drawn into the artwork', () => {
-			renderComponent();
-
-			// Percentages, so the hotspot tracks the text at any displayed size.
-			const {height, left, top, width} = screen.getByRole('link').style;
-
-			for (const value of [height, left, top, width]) {
-				expect(value).toMatch(/%$/);
-			}
-		});
-
 		it('does not dismiss the screen when clicked', () => {
 			const onClose = renderComponent();
 
 			fireEvent.click(screen.getByRole('link'));
 			expect(onClose).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('the Start button', () => {
+		it('does not dismiss the screen synchronously--it animates first', () => {
+			jest.useFakeTimers();
+
+			const onClose = renderComponent();
+
+			fireEvent.click(screen.getByRole('button', {name: /start/}));
+			expect(onClose).not.toHaveBeenCalled();
+
+			jest.runAllTimers();
+			expect(onClose).toHaveBeenCalledTimes(1);
+			jest.useRealTimers();
+		});
+
+		it('does not dismiss the screen twice on a double click', () => {
+			jest.useFakeTimers();
+
+			const onClose = renderComponent();
+			const button = screen.getByRole('button', {name: /start/});
+
+			fireEvent.click(button);
+			fireEvent.click(button);
+			jest.runAllTimers();
+			expect(onClose).toHaveBeenCalledTimes(1);
+			jest.useRealTimers();
 		});
 	});
 

@@ -1,3 +1,23 @@
+## Twine121
+
+Twine121 is a fork of [Twine](https://twinery.org) that keeps the original
+editor and story formats intact, and adds a handful of things on top to make
+day-to-day use easier: a per-story asset library for images and sounds
+(with a broken-reference checker), a visual layout designer for per-tag
+passage backgrounds, and inline tools for dropping images and sound cues into
+a passage without leaving the editor.
+
+### Download
+
+Ready-to-run desktop builds for Mac and Windows are on this repo's
+[Releases](https://github.com/ProfChiu/twinejs/releases) page. Both are
+unsigned, so on first launch macOS will ask you to right-click the app and
+choose "Open," and Windows SmartScreen may warn about an unrecognized
+publisher--that's expected for a small, independently-built app, and only
+happens once.
+
+---
+
 ## twinejs
 
 by Chris Klimas, Lorenzo Ancora, Leon Arnott, Daithi O Crualaoich, Ingrid Cheung,
@@ -18,10 +38,12 @@ repositories:
 
 #### BUILDS
 
-Binary packages for Twine are available on the
-[Releases](https://github.com/klembot/twinejs/releases) tab for Windows, MacOS
-and Linux. Community-created builds exist on other platforms, such as the Snap
-Store or Arch User Repository. As always, only install from sources you trust.
+Binary packages for upstream Twine itself are available on
+[klembot/twinejs's Releases](https://github.com/klembot/twinejs/releases) tab
+for Windows, MacOS and Linux. Community-created builds exist on other
+platforms, such as the Snap Store or Arch User Repository. As always, only
+install from sources you trust. For Twine121's own builds, see Download,
+above.
 
 ### INSTALL
 
