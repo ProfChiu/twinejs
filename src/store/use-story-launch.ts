@@ -1,6 +1,7 @@
 import {usePublishing} from './use-publishing';
 import {isElectronRenderer} from '../util/is-electron';
 import {TwineElectronWindow} from '../electron/shared';
+import {storyWithId, useStoriesContext} from './stories';
 
 export interface UseStoryLaunchProps {
 	playStory: (storyId: string) => Promise<void>;
@@ -14,6 +15,7 @@ export interface UseStoryLaunchProps {
  */
 export function useStoryLaunch(): UseStoryLaunchProps {
 	const {proofStory, publishStory} = usePublishing();
+	const {stories} = useStoriesContext();
 
 	if (isElectronRenderer()) {
 		const {twineElectron} = window as TwineElectronWindow;
@@ -28,13 +30,13 @@ export function useStoryLaunch(): UseStoryLaunchProps {
 			playStory: async storyId => {
 				twineElectron.openWithScratchFile(
 					await publishStory(storyId),
-					`play-${storyId}.html`
+					storyWithId(stories, storyId)
 				);
 			},
 			proofStory: async storyId => {
 				twineElectron.openWithScratchFile(
 					await proofStory(storyId),
-					`proof-${storyId}.html`
+					storyWithId(stories, storyId)
 				);
 			},
 			testStory: async (storyId, startPassageId) => {
@@ -43,7 +45,7 @@ export function useStoryLaunch(): UseStoryLaunchProps {
 						formatOptions: 'debug',
 						startId: startPassageId
 					}),
-					`test-${storyId}.html`
+					storyWithId(stories, storyId)
 				);
 			}
 		};

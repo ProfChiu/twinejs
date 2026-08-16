@@ -221,6 +221,57 @@ describe('<PassageCard>', () => {
 
 	it.todo('passes through drag events');
 
+	describe('right-click "Add Image" menu', () => {
+		it('does not show the menu on right-click when onAddImage is not provided', () => {
+			const passage = fakePassage();
+
+			renderComponent({passage});
+			fireEvent.contextMenu(screen.getByText(passage.name));
+			expect(
+				document.querySelector('.passage-image-menu')
+			).not.toBeInTheDocument();
+		});
+
+		it('shows the menu on right-click when onAddImage is provided', () => {
+			const passage = fakePassage();
+
+			renderComponent({passage, onAddImage: jest.fn()});
+			fireEvent.contextMenu(screen.getByText(passage.name));
+			expect(
+				document.querySelector('.passage-image-menu')
+			).toBeInTheDocument();
+		});
+
+		it('calls onAddImage with the passage and chosen alignment when an option is picked', () => {
+			const onAddImage = jest.fn();
+			const passage = fakePassage();
+
+			renderComponent({passage, onAddImage});
+			fireEvent.contextMenu(screen.getByText(passage.name));
+			fireEvent.click(
+				screen.getByRole('button', {
+					name: 'components.passageImageMenu.anchor'
+				})
+			);
+			expect(onAddImage).toHaveBeenCalledWith(passage, 'anchor');
+		});
+
+		it('closes the menu after picking an option', () => {
+			const passage = fakePassage();
+
+			renderComponent({passage, onAddImage: jest.fn()});
+			fireEvent.contextMenu(screen.getByText(passage.name));
+			fireEvent.click(
+				screen.getByRole('button', {
+					name: 'components.passageImageMenu.anchor'
+				})
+			);
+			expect(
+				document.querySelector('.passage-image-menu')
+			).not.toBeInTheDocument();
+		});
+	});
+
 	it('is accessible', async () => {
 		const {container} = renderComponent();
 

@@ -6,7 +6,6 @@ import {UndoRedoButtons} from '../../components/codemirror';
 import {ButtonBar} from '../../components/container/button-bar';
 import {MenuButton} from '../../components/control/menu-button';
 import {RenamePassageButton} from '../../components/passage/rename-passage-button';
-import {TestPassageButton} from '../../routes/story-edit/toolbar/passage/test-passage-button';
 import {
 	addPassageTag,
 	Passage,
@@ -19,6 +18,8 @@ import {
 import {useUndoableStoriesContext} from '../../store/undoable-stories';
 import {Color} from '../../util/color';
 import {TagCardButton} from '../../components/tag/tag-card-button';
+import {AddPassageImageButton} from '../../twine121/passage-images';
+import {AddPassageSoundButton} from '../../twine121/passage-sounds';
 
 export interface PassageToolbarProps {
 	disabled?: boolean;
@@ -114,7 +115,18 @@ export const PassageToolbar: React.FC<PassageToolbarProps> = props => {
 				passage={passage}
 				story={story}
 			/>
-			<TestPassageButton passage={passage} story={story} />
+			<AddPassageImageButton
+				disabled={disabled}
+				editor={editor}
+				passage={passage}
+				story={story}
+			/>
+			<AddPassageSoundButton
+				disabled={disabled}
+				editor={editor}
+				passage={passage}
+				story={story}
+			/>
 		</ButtonBar>
 	);
 };

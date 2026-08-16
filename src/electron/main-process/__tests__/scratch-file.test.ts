@@ -1,15 +1,20 @@
 import {mkdirp, readdir, remove, stat, writeFile} from 'fs-extra';
 import {
 	cleanScratchDirectory,
-	openWithScratchFile,
+	openStoryPreview,
 	scratchDirectoryPath
 } from '../scratch-file';
 import {shell} from 'electron';
 import {AppPrefName, getAppPref} from '../app-prefs';
+import {fakeStory} from '../../../test-util';
 
 jest.mock('electron');
 jest.mock('fs-extra');
 jest.mock('../app-prefs');
+jest.mock('../story-file', () => ({
+	PREVIEW_FILE_NAME: '_preview.html',
+	getStoryFolderPath: (story: any) => `mock-story-folder-${story.id}`
+}));
 
 describe('scratchDirectoryPath', () => {
 	const getAppPrefMock = getAppPref as jest.Mock;
@@ -297,38 +302,36 @@ describe('cleanScratchDirectoryPath', () => {
 	});
 });
 
-describe('openWithScratchFile', () => {
+describe('openStoryPreview', () => {
 	const mkdirpMock = mkdirp as jest.Mock;
 	const openMock = shell.openPath as jest.Mock;
 	const writeFileMock = writeFile as jest.Mock;
+	const story = fakeStory();
+	const folderPath = `mock-story-folder-${story.id}`;
 
-	it("creates the scratch directory if it doesn't already exist", async () => {
-		await openWithScratchFile('mock-data', 'mock-filename');
-		expect(mkdirpMock.mock.calls).toEqual([[scratchDirectoryPath()]]);
+	it("creates the story's folder if it doesn't already exist", async () => {
+		await openStoryPreview('mock-data', story);
+		expect(mkdirpMock.mock.calls).toEqual([[folderPath]]);
 	});
 
-	it('rejects if creating the scratch directory fails', async () => {
+	it("rejects if creating the story's folder fails", async () => {
 		const error = new Error();
 
 		mkdirpMock.mockRejectedValue(error);
-		await expect(() =>
-			openWithScratchFile('mock-data', 'mock-filename')
-		).rejects.toBe(error);
+		await expect(() => openStoryPreview('mock-data', story)).rejects.toBe(
+			error
+		);
 	});
 
-	it('resolves after writing a file in the scratch directory', async () => {
-		await openWithScratchFile('mock-data', 'mock-filename');
+	it("resolves after writing the preview file in the story's folder", async () => {
+		await openStoryPreview('mock-data', story);
 		expect(writeFileMock.mock.calls).toEqual([
-			[
-				'mock-electron-app-path-documents/common.appName/electron.scratchDirectoryName/mock-filename',
-				'mock-data',
-				'utf8'
-			]
+			[`${folderPath}/_preview.html`, 'mock-data', 'utf8']
 		]);
 	});
 
 	it('opens the file once written to', async () => {
-		await openWithScratchFile('mock-data', 'mock-filename');
+		await openStoryPreview('mock-data', story);
 		expect(openMock).toBeCalledTimes(1);
 		expect(openMock.mock.calls[0]).toEqual([writeFileMock.mock.calls[0][0]]);
 	});

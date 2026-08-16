@@ -1,0 +1,29 @@
+@import '../../styles/colors.css';
+@import '../../styles/metrics.css';
+
+.twine121-pinned-test-buttons {
+	align-items: center;
+	display: inline-flex;
+	gap: var(--control-inner-padding);
+	margin-right: var(--grid-size);
+}
+
+.twine121-pinned-test-buttons .icon-button {
+	background: var(--dark-blue);
+	color: var(--white);
+}
+
+.twine121-pinned-test-buttons .icon-button:hover:not(:disabled) {
+	background: var(--blue);
+	color: var(--white);
+}
+
+.twine121-pinned-test-buttons .icon-button:active:not(:disabled) {
+	background: var(--dark-blue);
+	color: var(--white);
+}
+
+.twine121-pinned-test-buttons .icon-button:disabled {
+	background: var(--light-gray);
+	color: var(--gray);
+}

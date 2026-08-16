@@ -46,6 +46,7 @@ export const screen = {
 export const shell = {
 	openExternal: jest.fn(),
 	openPath: jest.fn(),
+	showItemInFolder: jest.fn(),
 	trashItem: jest.fn()
 };
 

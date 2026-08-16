@@ -4,6 +4,7 @@ import {Passage, Story} from '../../../store/stories';
 import {boundingRect, Point} from '../../../util/geometry';
 import {PassageConnections} from '../passage-connections';
 import {PassageCardGroup} from '../passage-card-group';
+import {ImageAlignment} from '../../../twine121/passage-images';
 import './passage-map.css';
 import classnames from 'classnames';
 
@@ -14,6 +15,7 @@ export interface PassageMapProps {
 	onDrag: (change: Point) => void;
 	onEdit: (passage: Passage) => void;
 	onSelect: (passage: Passage, exclusive: boolean) => void;
+	onAddImage?: (passage: Passage, alignment: ImageAlignment) => void;
 	passages: Passage[];
 	startPassageId: string;
 	tagColors: Story['tagColors'];
@@ -78,6 +80,7 @@ export const PassageMap: React.FC<PassageMapProps> = props => {
 		onDrag,
 		onEdit,
 		onSelect,
+		onAddImage,
 		passages,
 		startPassageId,
 		tagColors,
@@ -221,6 +224,7 @@ export const PassageMap: React.FC<PassageMapProps> = props => {
 				onDragStop={handleDragStop}
 				onEdit={onEdit}
 				onSelect={handleSelect}
+				onAddImage={onAddImage}
 				passages={passages}
 				tagColors={tagColors}
 				tagDisplay={tagDisplay}

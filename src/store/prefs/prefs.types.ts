@@ -13,7 +13,8 @@ export type PrefsAction =
 				| string[]
 				| {name: string; version: string}
 				| {name: string; version: string}[]
-				| Record<string, Color>;
+				| Record<string, Color>
+				| Record<string, string>;
 	  }
 	| {type: 'repair'; allFormats: StoryFormat[]};
 
@@ -30,6 +31,13 @@ export interface PrefsState {
 	 * Font scale (1 being 100%) for the story JS and stylesheet editor.
 	 */
 	codeEditorFontScale: number;
+	/**
+	 * Google Fonts the user has added via the Screen Layout designer, saved so
+	 * they're available for any story going forward. Key is the font family
+	 * name as typed (e.g. "Roboto Slab"); value is its CSS fallback generic
+	 * family (e.g. "serif").
+	 */
+	customGoogleFonts: Record<string, string>;
 	/**
 	 * Width of side dialogs in pixels.
 	 */
@@ -112,6 +120,12 @@ export interface PrefsState {
 	 * Colors for story tags.
 	 */
 	storyTagColors: Record<string, Color>;
+	/**
+	 * Should the Twine121 startup dialog open when the app launches? Users can
+	 * turn this off in the dialog itself; it's always reachable from the About
+	 * Twine121 button.
+	 */
+	showTwine121Startup: boolean;
 	/**
 	 * Use CodeMirror for text editing?
 	 */

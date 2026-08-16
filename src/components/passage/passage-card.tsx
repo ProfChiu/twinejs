@@ -10,6 +10,11 @@ import {TagStripe} from '../tag/tag-stripe';
 import {passageIsEmpty} from '../../util/passage-is-empty';
 import './passage-card.css';
 import { TagBadges } from '../tag/tag-badges';
+import {
+	ImageAlignment,
+	PassageImageMenu,
+	PassageImageMenuPosition
+} from '../../twine121/passage-images';
 
 export interface PassageCardProps {
 	onEdit: (passage: Passage) => void;
@@ -18,6 +23,10 @@ export interface PassageCardProps {
 	onDrag?: DraggableCoreProps['onDrag'];
 	onDragStop?: DraggableCoreProps['onStop'];
 	onSelect: (passage: Passage, exclusive: boolean) => void;
+	/** Right-click "Add Image" support--omit (or leave undefined) to disable
+	 * the context menu entirely, e.g. outside Electron where there's no
+	 * native file picker to back it. */
+	onAddImage?: (passage: Passage, alignment: ImageAlignment) => void;
 	passage: Passage;
 	tagColors: TagColors;
 	tagDisplay: 'color' | 'name';
@@ -28,6 +37,7 @@ const excerptLength = 400;
 
 export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 	const {
+		onAddImage,
 		onDeselect,
 		onDrag,
 		onDragStart,
@@ -39,6 +49,19 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 		tagDisplay
 	} = props;
 	const {t} = useTranslation();
+	const [imageMenuPosition, setImageMenuPosition] =
+		React.useState<PassageImageMenuPosition>();
+	const handleContextMenu = React.useCallback(
+		(event: React.MouseEvent) => {
+			if (!onAddImage) {
+				return;
+			}
+
+			event.preventDefault();
+			setImageMenuPosition({x: event.clientX, y: event.clientY});
+		},
+		[onAddImage]
+	);
 	const className = React.useMemo(
 		() =>
 			classNames('passage-card', {
@@ -111,7 +134,13 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 			onDrag={onDrag}
 			onStop={onDragStop}
 		>
-			<div className={className} ref={container} style={style} data-passage-tags={passage.tags.join(' ')}>
+			<div
+				className={className}
+				ref={container}
+				style={style}
+				data-passage-tags={passage.tags.join(' ')}
+				onContextMenu={handleContextMenu}
+			>
 				<SelectableCard
 					highlighted={passage.highlighted}
 					label={passage.name}
@@ -124,6 +153,14 @@ export const PassageCard: React.FC<PassageCardProps> = React.memo(props => {
 					<CardContent>{excerpt}</CardContent>
 					{tagDisplay === 'name' && <TagBadges tagColors={tagColors} tags={passage.tags} />}
 				</SelectableCard>
+				{imageMenuPosition && onAddImage && (
+					<PassageImageMenu
+						onAddImage={onAddImage}
+						onClose={() => setImageMenuPosition(undefined)}
+						passage={passage}
+						position={imageMenuPosition}
+					/>
+				)}
 			</div>
 		</DraggableCore>
 	);

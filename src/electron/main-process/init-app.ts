@@ -9,6 +9,7 @@ import {
 	createStoryDirectory,
 	initStoryDirectory
 } from './story-directory';
+import {migrateStoriesToFolders} from './story-file';
 import {getUserCss} from './user-css';
 
 let mainWindow: BrowserWindow | null;
@@ -66,6 +67,7 @@ export async function initApp() {
 		await initStoryDirectory();
 		await createStoryDirectory();
 		await backupStoryDirectory();
+		await migrateStoriesToFolders();
 		setInterval(backupStoryDirectory, 1000 * 60 * 20);
 		initIpc();
 		initMenuBar();

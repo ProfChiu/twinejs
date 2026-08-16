@@ -3,6 +3,8 @@ import {mkdirp, readdir, remove, stat, writeFile} from 'fs-extra';
 import {join} from 'path';
 import {i18n} from './locales';
 import {getAppPref} from './app-prefs';
+import {PREVIEW_FILE_NAME, getStoryFolderPath} from './story-file';
+import {Story} from '../../store/stories/stories.types';
 
 /**
  * Returns the path to the scratch directory. This can be overridden by the app
@@ -54,10 +56,19 @@ export async function cleanScratchDirectory() {
 	);
 }
 
-export async function openWithScratchFile(data: string, filename: string) {
-	const scratchPath = join(scratchDirectoryPath(), filename);
+/**
+ * Writes a story's Play/Test/Proof preview HTML into the story's own folder
+ * (not the shared Scratch/ directory) and opens it. This is what lets
+ * relative image/sound paths (e.g. "images/foo.png") resolve during preview
+ * the same way they will once published--writing to a separate shared
+ * scratch folder, as upstream Twine does, breaks those relative paths since
+ * the story's images/sounds subfolders aren't siblings of the scratch file.
+ */
+export async function openStoryPreview(data: string, story: Story) {
+	const folderPath = getStoryFolderPath(story);
+	const previewPath = join(folderPath, PREVIEW_FILE_NAME);
 
-	await mkdirp(scratchDirectoryPath());
-	await writeFile(scratchPath, data, 'utf8');
-	shell.openPath(scratchPath);
+	await mkdirp(folderPath);
+	await writeFile(previewPath, data, 'utf8');
+	shell.openPath(previewPath);
 }

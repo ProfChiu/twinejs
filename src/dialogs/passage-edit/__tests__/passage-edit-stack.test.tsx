@@ -83,7 +83,11 @@ describe('<PassageEditStack>', () => {
 			)
 		).toBeInTheDocument();
 		expect(
-			screen.getByRole('heading', {name: story.passages[0].name})
+			screen.getByRole('heading', {
+				name: new RegExp(
+					story.passages[0].name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+				)
+			})
 		).toBeInTheDocument();
 		expect(
 			screen.getByRole('heading', {name: story.passages[1].name})

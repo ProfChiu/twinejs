@@ -1,0 +1,61 @@
+.sound-console {
+	position: fixed;
+	z-index: 1000;
+	width: 320px;
+	max-width: calc(100vw - 24px);
+}
+
+.sound-console-title {
+	margin: 0 0 8px;
+	font-size: 1rem;
+}
+
+.sound-console-field {
+	margin-bottom: 10px;
+}
+
+.sound-console-field > label,
+.sound-console-field-label {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: bold;
+	font-size: 0.85rem;
+}
+
+.sound-console-sound-row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.sound-console-sound-row select {
+	flex: 1;
+	min-width: 0;
+}
+
+.sound-console-radios {
+	display: flex;
+	gap: 16px;
+}
+
+.sound-console-radios label {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-weight: normal;
+}
+
+.sound-console input[type='range'] {
+	width: 100%;
+}
+
+.sound-console-stopafter {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: normal;
+}
+
+.sound-console-seconds {
+	width: 4em;
+}

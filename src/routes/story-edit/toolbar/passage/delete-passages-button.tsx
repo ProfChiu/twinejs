@@ -25,7 +25,7 @@ export const DeletePassagesButton: React.FC<
 		return passages.some(passage => story.startPassage === passage.id);
 	}, [passages, story.startPassage]);
 	const handleClick = React.useCallback(() => {
-		if (passages.length === 0) {
+		if (disabled) {
 			return;
 		}
 
@@ -35,7 +35,7 @@ export const DeletePassagesButton: React.FC<
 				? 'undoChange.deletePassages'
 				: 'undoChange.deletePassage'
 		);
-	}, [dispatch, passages, story]);
+	}, [dispatch, disabled, passages, story]);
 
 	useHotkeys('Backspace,Delete', handleClick, [handleClick]);
 

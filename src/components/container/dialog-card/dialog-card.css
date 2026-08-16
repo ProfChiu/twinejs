@@ -1,4 +1,5 @@
 @import '../../../styles/animations.css';
+@import '../../../styles/colors.css';
 @import '../../../styles/typography.css';
 @import '../../../styles/metrics.css';
 
@@ -19,7 +20,38 @@
 .dialog-card h2 {
 	align-items: center;
 	display: grid;
-	grid-template-columns: 1fr auto;
+	grid-template-columns: 1fr auto auto;
+}
+
+.dialog-card h2 .dialog-card-header-action {
+	margin-right: var(--grid-size);
+}
+
+.dialog-card h2 .dialog-card-header-action .icon-button {
+	background: var(--dark-blue);
+	color: var(--white);
+	font-family: var(--font-system);
+	/* The enclosing <h2> sets a 150% font-size for its title; this cancels
+	   that out so the button text matches the app's normal UI text size
+	   instead of scaling up with the heading. */
+	font-size: 0.9rem;
+	height: calc(var(--control-height) / 2);
+	padding: 0 var(--grid-size);
+}
+
+.dialog-card h2 .dialog-card-header-action .icon-button:hover:not(:disabled) {
+	background: var(--blue);
+	color: var(--white);
+}
+
+.dialog-card h2 .dialog-card-header-action .icon-button:active:not(:disabled) {
+	background: var(--dark-blue);
+	color: var(--white);
+}
+
+.dialog-card h2 .dialog-card-header-action .icon-button:disabled {
+	background: var(--light-gray);
+	color: var(--gray);
 }
 
 .dialog-card h2 .dialog-card-header {

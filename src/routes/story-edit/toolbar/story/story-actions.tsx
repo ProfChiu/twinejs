@@ -2,9 +2,11 @@ import * as React from 'react';
 import {ButtonBar} from '../../../../components/container/button-bar';
 import {RenameStoryButton} from '../../../../components/story/rename-story-button';
 import {Story, updateStory, useStoriesContext} from '../../../../store/stories';
+import {AssetsButton} from './assets-button';
 import {DetailsButton} from './details-button';
 import {FindReplaceButton} from './find-replace-button';
 import {JavaScriptButton} from './javascript-button';
+import {LayoutButton} from './layout-button';
 import {PassageTagsButton} from './passage-tags-button';
 import {StylesheetButton} from './stylesheet-button';
 
@@ -28,6 +30,8 @@ export const StoryActions: React.FC<StoryActionsProps> = props => {
 			<PassageTagsButton story={story} />
 			<JavaScriptButton story={story} />
 			<StylesheetButton story={story} />
+			<AssetsButton story={story} />
+			<LayoutButton story={story} />
 		</ButtonBar>
 	);
 };

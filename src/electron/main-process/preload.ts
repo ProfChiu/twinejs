@@ -9,10 +9,30 @@
 
 import {contextBridge, ipcRenderer} from 'electron';
 import {Story} from '../../store/stories/stories.types';
+import {StoryAssetKind} from './story-assets.types';
+import {StorySidecar} from './story-sidecar.types';
 
 contextBridge.exposeInMainWorld('twineElectron', {
 	deleteStory(story: Story) {
 		ipcRenderer.send('delete-story', story);
+	},
+	deleteStoryAsset(story: Story, kind: StoryAssetKind, name: string) {
+		return ipcRenderer.invoke('delete-story-asset', story, kind, name);
+	},
+	importStoryAsset(story: Story, kind: StoryAssetKind) {
+		return ipcRenderer.invoke('import-story-asset', story, kind);
+	},
+	listStoryAssets(story: Story) {
+		return ipcRenderer.invoke('list-story-assets', story);
+	},
+	loadStorySidecar(story: Story) {
+		return ipcRenderer.invoke('load-story-sidecar', story);
+	},
+	revealStoryAsset(story: Story, kind: StoryAssetKind, name: string) {
+		return ipcRenderer.invoke('reveal-story-asset', story, kind, name);
+	},
+	saveStorySidecar(story: Story, data: StorySidecar) {
+		return ipcRenderer.invoke('save-story-sidecar', story, data);
 	},
 	loadPrefs() {
 		return ipcRenderer.invoke('load-prefs');
@@ -26,8 +46,8 @@ contextBridge.exposeInMainWorld('twineElectron', {
 	onceStoryRenamed(callback: () => void): void {
 		ipcRenderer.once('story-renamed', callback);
 	},
-	openWithScratchFile(data: string, filename: string) {
-		ipcRenderer.send('open-with-scratch-file', data, filename);
+	openWithScratchFile(data: string, story: Story) {
+		ipcRenderer.send('open-with-scratch-file', data, story);
 	},
 	renameStory(oldStory: Story, newStory: Story) {
 		ipcRenderer.send('rename-story', oldStory, newStory);

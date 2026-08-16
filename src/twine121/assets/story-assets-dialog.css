@@ -1,0 +1,44 @@
+@import '../../styles/metrics.css';
+@import '../../styles/colors.css';
+
+.story-assets-dialog .story-assets-group {
+	margin-bottom: var(--ui-gap);
+}
+
+.story-assets-dialog .story-assets-group-header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.story-assets-dialog .story-assets-group-header h3 {
+	margin: 0;
+}
+
+.story-assets-dialog .story-assets-empty {
+	opacity: 0.7;
+}
+
+.story-assets-dialog .story-assets-list {
+	list-style: none;
+	margin: var(--grid-size) 0 0;
+	padding: 0;
+}
+
+.story-assets-dialog .story-assets-row {
+	align-items: center;
+	display: flex;
+	gap: var(--grid-size);
+	padding: calc(var(--grid-size) / 2) 0;
+}
+
+.story-assets-dialog .story-assets-name {
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.story-assets-dialog .story-assets-error {
+	color: var(--dark-red);
+}

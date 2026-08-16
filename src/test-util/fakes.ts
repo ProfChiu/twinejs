@@ -115,6 +115,7 @@ export function fakePrefs(overrides?: Partial<PrefsState>): PrefsState {
 		appTheme: faker.helpers.arrayElement(['light', 'dark', 'system']),
 		codeEditorFontFamily: faker.lorem.words(2),
 		codeEditorFontScale: 0.8 + faker.number.int(0.5),
+		customGoogleFonts: {},
 		dialogWidth: faker.number.int(600),
 		disabledStoryFormatEditorExtensions: [
 			{name: faker.lorem.words(2), version: faker.system.semver()}
@@ -140,6 +141,9 @@ export function fakePrefs(overrides?: Partial<PrefsState>): PrefsState {
 		storyListSort: faker.helpers.arrayElement(['date', 'name']),
 		storyListTagFilter: [],
 		storyTagColors: {[tags[0]]: 'red', [tags[1]]: 'green', [tags[2]]: 'blue'},
+		// Off by default so the startup dialog doesn't appear over unrelated tests.
+		// Tests for it should set this explicitly.
+		showTwine121Startup: false,
 		// Changing this preference should be explicit in a test because it affects
 		// editorCursorBlinks in some contexts.
 		useCodeMirror: true,

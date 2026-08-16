@@ -10,6 +10,7 @@ export type AppPrefName =
 	| 'disableHardwareAcceleration'
 	| 'scratchFolderPath'
 	| 'scratchFileCleanupAge'
+	| 'storiesMigratedToFolders'
 	| 'storyLibraryFolderPath';
 
 const prefNames: AppPrefName[] = [
@@ -17,6 +18,7 @@ const prefNames: AppPrefName[] = [
 	'disableHardwareAcceleration',
 	'scratchFolderPath',
 	'scratchFileCleanupAge',
+	'storiesMigratedToFolders',
 	'storyLibraryFolderPath'
 ];
 const prefs: Partial<Record<AppPrefName, unknown>> = {};

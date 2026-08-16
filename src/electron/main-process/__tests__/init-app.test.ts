@@ -8,6 +8,7 @@ import {
 	createStoryDirectory,
 	initStoryDirectory
 } from '../story-directory';
+import {migrateStoriesToFolders} from '../story-file';
 import {cleanScratchDirectory} from '../scratch-file';
 
 jest.mock('electron');
@@ -16,6 +17,7 @@ jest.mock('../ipc');
 jest.mock('../locales');
 jest.mock('../menu-bar');
 jest.mock('../story-directory');
+jest.mock('../story-file');
 jest.mock('../scratch-file');
 
 describe('initApp', () => {
@@ -24,6 +26,7 @@ describe('initApp', () => {
 	const initMenuBarMock = initMenuBar as jest.Mock;
 	const initStoryDirectoryMock = initStoryDirectory as jest.Mock;
 	const backupStoryDirectoryMock = backupStoryDirectory as jest.Mock;
+	const migrateStoriesToFoldersMock = migrateStoriesToFolders as jest.Mock;
 	const cleanScratchDirectoryMock = cleanScratchDirectory as jest.Mock;
 	const createStoryDirectoryMock = createStoryDirectory as jest.Mock;
 	const onMock = app.on as jest.Mock;
@@ -50,6 +53,11 @@ describe('initApp', () => {
 	it('backs up the story directory', async () => {
 		await initApp();
 		expect(backupStoryDirectoryMock).toBeCalledTimes(1);
+	});
+
+	it('migrates stories to per-story folders after backing up', async () => {
+		await initApp();
+		expect(migrateStoriesToFoldersMock).toBeCalledTimes(1);
 	});
 
 	it('initializes backing up the story directory every 20 minutes', async () => {

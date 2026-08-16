@@ -27,6 +27,20 @@ describe('<DialogCard>', () => {
 		expect(screen.getByText('mock-header-label')).toBeInTheDocument();
 	});
 
+	it('displays a header action when provided', () => {
+		renderComponent({
+			headerAction: <div data-testid="mock-header-action" />
+		});
+		expect(screen.getByTestId('mock-header-action')).toBeInTheDocument();
+	});
+
+	it('does not display a header action area when not provided', () => {
+		renderComponent();
+		expect(
+			document.querySelector('.dialog-card-header-action')
+		).not.toBeInTheDocument();
+	});
+
 	it('uses the header display label instead of label when provided', () => {
 		renderComponent({
 			headerDisplayLabel: <div data-testid="mock-header-display-label" />

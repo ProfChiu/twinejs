@@ -1,0 +1,51 @@
+.twine121-start-screen {
+	align-items: center;
+	/* Near-black at half opacity, so the app dims but stays visible around the
+	artwork. start.png has a transparent margin with a soft drop shadow baked in,
+	which now reads as a glow against whatever shows through. */
+	background: rgba(5, 5, 5, 0.5);
+	bottom: 0;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	left: 0;
+	padding: 24px;
+	position: fixed;
+	right: 0;
+	top: 0;
+	/* Above every dialog and toolbar--this is the app's front door. */
+	z-index: 2000;
+}
+
+/* Wraps the image tightly so the hotspot's percentages resolve against the
+artwork itself, not against letterboxed space beside it. */
+.twine121-start-screen-art {
+	line-height: 0;
+	position: relative;
+}
+
+.twine121-start-screen-art img {
+	display: block;
+	max-height: calc(100vh - 48px);
+	max-width: 100%;
+	width: auto;
+}
+
+.twine121-start-screen-hotspot {
+	position: absolute;
+}
+
+/* The link text is drawn into the artwork; this label exists for screen readers
+and is positioned offscreen rather than hidden, so it stays reachable. */
+.twine121-start-screen-hotspot span {
+	height: 1px;
+	left: -9999px;
+	overflow: hidden;
+	position: absolute;
+	width: 1px;
+}
+
+.twine121-start-screen-hotspot:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: 3px;
+}

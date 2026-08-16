@@ -39,7 +39,7 @@ module.exports = {
 			console.log('Notarizing Mac app...');
 			await notarize({
 				appBundleId: process.env.APPLE_APP_ID,
-				appPath: path.join(context.appOutDir, `Twine.app`),
+				appPath: path.join(context.appOutDir, `Twine121.app`),
 				appleId: process.env.APPLE_ID,
 				appleIdPassword: process.env.APPLE_ID_PASSWORD,
 				teamId: process.env.APPLE_TEAM_ID
@@ -62,7 +62,7 @@ module.exports = {
 	// 		);
 	// 	}
 	// },
-	appId: 'org.twinery.twine',
+	appId: 'edu.scad.twine121',
 	directories: {
 		output: 'dist/electron'
 	},
@@ -71,11 +71,11 @@ module.exports = {
 	},
 	files: ['electron-build/**/*', 'node_modules/**/*'],
 	linux: {
-		artifactName: `Twine-${pkg.version}-Linux-\${arch}.zip`,
+		artifactName: `Twine121-${pkg.version}-Linux-\${arch}.zip`,
 		target: [{arch: ['arm64', 'x64'], target: 'zip'}]
 	},
 	mac: {
-		artifactName: `Twine-${pkg.version}-macOS.dmg`,
+		artifactName: `Twine121-${pkg.version}-macOS.dmg`,
 		icon: `icons/app-${isPreview ? 'preview' : 'release'}.png`,
 		target: {arch: ['universal'], target: 'dmg'}
 	},
@@ -84,7 +84,7 @@ module.exports = {
 		allowToChangeInstallationDirectory: true
 	},
 	win: {
-		artifactName: `Twine-${pkg.version}-Windows.exe`,
+		artifactName: `Twine121-${pkg.version}-Windows.exe`,
 		icon: `icons/app-${isPreview ? 'preview' : 'release'}-no-padding.ico`,
 		target: {arch: ['x64'], target: 'nsis'}
 	}

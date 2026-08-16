@@ -18,6 +18,7 @@ import {
 	useDialogsContext
 } from '../context';
 import {DialogComponentProps} from '../dialogs.types';
+import {TestPassageButton} from '../../routes/story-edit/toolbar/passage/test-passage-button';
 import {PassageEditContents} from './passage-edit-contents';
 import './passage-edit-stack.css';
 
@@ -32,7 +33,8 @@ const InnerPassageEditStack: React.FC<PassageEditStackProps> = props => {
 		props;
 	const {dispatch} = useDialogsContext();
 	const {stories} = useStoriesContext();
-	const storyTagColors = storyWithId(stories, storyId).tagColors;
+	const story = storyWithId(stories, storyId);
+	const storyTagColors = story.tagColors;
 	const passageInfo = passageIds.map(passageId => {
 		const passage = passageWithId(stories, storyId, passageId);
 
@@ -101,6 +103,12 @@ const InnerPassageEditStack: React.FC<PassageEditStackProps> = props => {
 					return (
 						<DialogCard
 							{...managementProps}
+							headerAction={
+								<TestPassageButton
+									passage={passageWithId(stories, storyId, passageId)}
+									story={story}
+								/>
+							}
 							headerDisplayLabel={
 								<>
 									<TagGrid

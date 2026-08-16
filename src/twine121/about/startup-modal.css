@@ -1,0 +1,130 @@
+@import '../../styles/colors.css';
+@import '../../styles/depth.css';
+@import '../../styles/metrics.css';
+
+.startup-modal-scrim {
+	align-items: center;
+	background: var(--dark-gray-translucent);
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	left: 0;
+	padding: var(--ui-gap);
+	position: fixed;
+	right: 0;
+	top: 0;
+	/* Above dialogs and toolbars--this is a modal. */
+	z-index: 1000;
+}
+
+.startup-modal {
+	background: var(--white);
+	border-radius: var(--corner-round);
+	box-shadow: var(--shadow-large);
+	display: flex;
+	max-height: 100%;
+	max-width: 900px;
+	overflow: hidden;
+	width: 100%;
+}
+
+.startup-modal-image {
+	/* Deliberately not a theme variable: the artwork is black line art on a
+	transparent background, so it needs a light plate behind it in both themes. */
+	align-items: center;
+	background: rgb(230, 239, 252);
+	display: flex;
+	flex: 0 0 340px;
+	justify-content: center;
+	overflow: hidden;
+	padding: calc(var(--grid-size) * 2);
+}
+
+.startup-modal-image img {
+	/* The two artworks have very different aspect ratios (one landscape, one
+	tall), so let each size itself to the plate rather than cropping either. */
+	display: block;
+	height: auto;
+	max-height: 100%;
+	max-width: 100%;
+	width: auto;
+}
+
+.startup-modal-body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+	padding: calc(var(--grid-size) * 3);
+}
+
+.startup-modal-header {
+	align-items: flex-start;
+	display: flex;
+	gap: var(--grid-size);
+	justify-content: space-between;
+}
+
+.startup-modal-titles {
+	min-width: 0;
+}
+
+.startup-modal-header h1 {
+	font: bold 200% var(--font-system);
+	letter-spacing: 0.02em;
+	margin: 0;
+}
+
+.startup-modal-subtitle {
+	color: var(--dark-gray);
+	font-size: 90%;
+	margin-top: calc(var(--grid-size) / 2);
+}
+
+.startup-modal-content {
+	flex: 1;
+	margin-top: calc(var(--grid-size) * 2);
+	overflow-y: auto;
+}
+
+.startup-modal-content p {
+	line-height: 1.5;
+	margin: 0 0 var(--grid-size);
+}
+
+.startup-modal-content h2 {
+	font: bold 110% var(--font-system);
+	margin: calc(var(--grid-size) * 2) 0 var(--grid-size);
+}
+
+.startup-modal-content h2:first-child {
+	margin-top: 0;
+}
+
+.startup-modal-content ul {
+	line-height: 1.5;
+	margin: 0 0 var(--grid-size);
+	padding-left: calc(var(--grid-size) * 2);
+}
+
+.startup-modal-content li {
+	margin-bottom: calc(var(--grid-size) / 2);
+}
+
+.startup-modal-footer {
+	border-top: 1px solid var(--light-gray);
+	margin-top: calc(var(--grid-size) * 2);
+	padding-top: calc(var(--grid-size) * 1.5);
+}
+
+/* Stack the graphic above the text when there isn't room beside it. */
+@media (max-width: 700px), (max-height: 520px) {
+	.startup-modal {
+		flex-direction: column;
+	}
+
+	.startup-modal-image {
+		flex: 0 0 140px;
+	}
+
+}

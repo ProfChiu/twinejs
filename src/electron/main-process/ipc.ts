@@ -11,7 +11,16 @@ import {
 } from './story-file';
 import {loadStoryFormats} from './story-formats';
 import {loadPrefs} from './prefs';
-import {openWithScratchFile} from './scratch-file';
+import {openStoryPreview} from './scratch-file';
+import {
+	deleteStoryAsset,
+	importStoryAsset,
+	listStoryAssets,
+	revealStoryAsset
+} from './story-assets';
+import {StoryAssetKind} from './story-assets.types';
+import {loadStorySidecar, saveStorySidecar} from './story-sidecar';
+import {StorySidecar} from './story-sidecar.types';
 import {Story} from '../../store/stories/stories.types';
 
 export function initIpc() {
@@ -69,9 +78,49 @@ export function initIpc() {
 
 	ipcMain.on(
 		'open-with-scratch-file',
-		(event, data: string, filename: string) => {
-			openWithScratchFile(data, filename);
+		(event, data: string, story: Story) => {
+			openStoryPreview(data, story);
 		}
+	);
+
+	// Twine121 asset and sidecar channels. These use handle()/invoke() like
+	// load-prefs and load-story-formats above, rather than the on()+event-send
+	// pattern save-story-html and friends use--those exist to feed a Redux
+	// reducer, but assets and sidecar data aren't part of story Redux state, so
+	// a plain request/response call is simpler and is all the asset dialog
+	// needs. Errors are left to reject the returned promise rather than
+	// showing an OS error dialog, since these are triggered from inside a
+	// dialog that can show its own inline error state.
+
+	ipcMain.handle('list-story-assets', (event, story: Story) =>
+		listStoryAssets(story)
+	);
+
+	ipcMain.handle(
+		'import-story-asset',
+		(event, story: Story, kind: StoryAssetKind) =>
+			importStoryAsset(story, kind)
+	);
+
+	ipcMain.handle(
+		'delete-story-asset',
+		(event, story: Story, kind: StoryAssetKind, name: string) =>
+			deleteStoryAsset(story, kind, name)
+	);
+
+	ipcMain.handle(
+		'reveal-story-asset',
+		(event, story: Story, kind: StoryAssetKind, name: string) =>
+			revealStoryAsset(story, kind, name)
+	);
+
+	ipcMain.handle('load-story-sidecar', (event, story: Story) =>
+		loadStorySidecar(story)
+	);
+
+	ipcMain.handle(
+		'save-story-sidecar',
+		(event, story: Story, data: StorySidecar) => saveStorySidecar(story, data)
 	);
 
 	// This doesn't use handle() because state reducers in the renderer process

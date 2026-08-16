@@ -4,6 +4,7 @@ export const defaults = (): PrefsState => ({
 	appTheme: 'system',
 	codeEditorFontFamily: 'var(--font-monospaced)',
 	codeEditorFontScale: 1,
+	customGoogleFonts: {},
 	dialogWidth: 600,
 	disabledStoryFormatEditorExtensions: [],
 	donateShown: false,
@@ -11,7 +12,8 @@ export const defaults = (): PrefsState => ({
 	firstRunTime: new Date().getTime(),
 	lastUpdateSeen: '',
 	lastUpdateCheckTime: new Date().getTime(),
-	locale: (window.navigator as any).userLanguage ||
+	locale:
+		(window.navigator as any).userLanguage ||
 		window.navigator.language ||
 		(window.navigator as any).browserLanguage ||
 		(window.navigator as any).systemLanguage ||
@@ -31,6 +33,7 @@ export const defaults = (): PrefsState => ({
 	storyListSort: 'name',
 	storyListTagFilter: [],
 	storyTagColors: {},
+	showTwine121Startup: true,
 	useCodeMirror: true,
-	welcomeSeen: false,
+	welcomeSeen: false
 });

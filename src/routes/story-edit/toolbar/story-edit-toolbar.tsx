@@ -8,6 +8,7 @@ import {PassageActions} from './passage/passage-actions';
 import {StoryActions} from './story/story-actions';
 import {UndoRedoButtons} from './undo-redo-buttons';
 import {ZoomButtons} from './zoom-buttons';
+import {PinnedTestButtons} from '../../../twine121/story-launch';
 
 export interface StoryEditToolbarProps {
 	getCenter: () => Point;
@@ -23,6 +24,7 @@ export const StoryEditToolbar: React.FC<StoryEditToolbarProps> = props => {
 		<RouteToolbar
 			pinnedControls={
 				<>
+					<PinnedTestButtons story={story} />
 					<ZoomButtons story={story} />
 					<UndoRedoButtons />
 				</>

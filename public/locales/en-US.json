@@ -10,7 +10,7 @@
 	},
 	"common": {
 		"add": "Add",
-		"appName": "Twine",
+		"appName": "Twine121",
 		"back": "Back",
 		"build": "Build",
 		"cancel": "Cancel",
@@ -94,6 +94,12 @@
 		"passageCard": {
 			"placeholderClick": "Double-click this passage to edit it.",
 			"placeholderTouch": "Tap this passage, then choose Edit from the Passage tab to edit it."
+		},
+		"passageImageMenu": {
+			"anchor": "Add Image (Anchor)",
+			"floatLeft": "Add Image (Float Left)",
+			"floatRight": "Add Image (Float Right)",
+			"centered": "Add Image (Centered)"
 		},
 		"passageFuzzyFinder": {
 			"noResults": "No matches.",
@@ -192,9 +198,29 @@
 			"themeSystem": "System",
 			"theme": "Theme",
 			"title": "Preferences",
-			"useEnhancedEditors": "Use Enhanced Editors"
+			"useEnhancedEditors": "Use Enhanced Editors",
+			"showTwine121Startup": "Show the Twine121 start screen at launch"
 		},
 		"passageEdit": {
+			"addImage": "Add Image",
+			"addImageAnchor": "Anchor (Top)",
+			"addImageFloatLeft": "Float Left",
+			"addImageFloatRight": "Float Right",
+			"addImageCentered": "Centered",
+			"addSound": "Add Sound",
+			"addSoundSound": "Sound",
+			"addSoundNoSounds": "No sounds imported yet",
+			"addSoundImport": "Import a sound",
+			"addSoundAction": "Action",
+			"addSoundPlay": "Play",
+			"addSoundStop": "Stop",
+			"addSoundRepeat": "Repeat",
+			"addSoundOnce": "Play once",
+			"addSoundLoop": "Loop",
+			"addSoundVolume": "Volume",
+			"addSoundStopAfter": "Stop after",
+			"addSoundSeconds": "sec",
+			"addSoundInsert": "Insert",
 			"editorCrashed": "Something went wrong with this editor. Try closing it and editing this passage again.",
 			"passageTextEditorLabel": "Passage Text",
 			"passageTextPlaceholder": "Enter the body text of your passage here. To link to another passage, put two square brackets around its name, [[like this]].",
@@ -250,6 +276,76 @@
 				"passages": "Passages",
 				"words": "Words"
 			}
+		},
+		"storyAssets": {
+			"title": "Images & Sounds",
+			"images": "Images",
+			"sounds": "Sounds",
+			"importImage": "Import Image",
+			"importSound": "Import Sound",
+			"insert": "Insert",
+			"insertAnchor": "Insert as Anchor",
+			"copied": "Copied!",
+			"reveal": "Reveal in Finder",
+			"delete": "Delete",
+			"deletePrompt": "Delete “{{name}}”? This can't be undone.",
+			"noImages": "No images yet. Click \"Import Image\" to add one.",
+			"noSounds": "No sounds yet. Click \"Import Sound\" to add one.",
+			"loadError": "There was a problem loading this story's images and sounds: {{message}}",
+			"issuesTitle": "Check These References",
+			"issueLocationStylesheet": "Story Stylesheet",
+			"issueMissing": "“{{path}}” (in {{location}}) doesn't match any file in your images/sounds folder.",
+			"issueOutsideAssetsFolder": "“{{path}}” (in {{location}}) isn't inside your images/sounds folder, so it may not work once your game is uploaded."
+		},
+		"layoutDesigner": {
+			"title": "Screen Layout",
+			"presetLabel": "Preset",
+			"fontLabel": "Font",
+			"anchorImageGapLabel": "Anchor Image Gap",
+			"anchorImageGapNote": "Controls the space below any image inserted as an anchor from Images & Sounds — each passage can have its own.",
+			"anchorImagePlaceholder": "Anchor Image",
+			"addCustomFontOption": "+ Add custom Google Font…",
+			"customFontUrlLabel": "Google Fonts URL",
+			"customFontNameLabel": "Font Name",
+			"customFontFallbackLabel": "Fallback",
+			"addCustomFontConfirm": "Add Font",
+			"leftPanelImageLabel": "Left Panel Image",
+			"leftPanelImageNone": "None",
+			"importImageOption": "+ Import Image From Computer…",
+			"leftPanelWidthLabel": "Left Panel Width",
+			"leftPanelWidthNone": "None",
+			"hideSidebarLabel": "Hide Sidebar (Undo/Redo/Restart Icons)",
+			"hideDebuggerLabel": "Hide Debug Panel (shown while testing)",
+			"leftPanelPlaceholder": "Character Panel",
+			"baseFontSizeLabel": "Text Size",
+			"textColorLabel": "Text",
+			"backgroundColorLabel": "Background",
+			"linkColorLabel": "Link",
+			"stageMaxWidthLabel": "Stage Width",
+			"alignLeftLabel": "Align Passage to Left",
+			"leftGapLabel": "Left Gap",
+			"leftGapFlush": "Flush",
+			"leftGapNote": "Distance from the left edge (0 = flush against it).",
+			"passageBackgroundsLabel": "Passage Backgrounds (by tag)",
+			"passageBackgroundTagLabel": "Tag",
+			"passageBackgroundTagPlaceholder": "e.g. cave",
+			"passageBackgroundImageLabel": "Image",
+			"passageBackgroundImageNone": "None",
+			"passageBackgroundAdd": "Add Background",
+			"dialogueBoxPositionLabel": "Text Position",
+			"dialogueBoxPositionTop": "Top",
+			"dialogueBoxPositionCenter": "Center",
+			"dialogueBoxPositionBottom": "Bottom",
+			"dialogueBoxHeightLabel": "Box Height",
+			"dialogueBoxHeightAuto": "Auto",
+			"dialogueBoxPaddingLabel": "Box Padding",
+			"dialogueBoxOpacityLabel": "Box Opacity",
+			"backdropImageLabel": "Backdrop Image",
+			"backdropImageNone": "None",
+			"chapbookLimitNote": "Chapbook doesn't support this--Harlowe only.",
+			"previewHeading": "Preview",
+			"previewSampleText": "Your passage text will look like this.",
+			"previewSampleLink": "A sample link"
 		},
 		"storyJavaScript": {
 			"editorLabel": "Story JavaScript",
@@ -334,14 +430,18 @@
 	"routes": {
 		"storyEdit": {
 			"toolbar": {
+				"assets": "Images & Sounds",
 				"findAndReplace": "Find and Replace",
 				"goTo": "Go To",
 				"javaScript": "JavaScript",
+				"layout": "Screen Layout",
 				"passageTags": "Passage Tags",
 				"snapToGrid": "Snap to Grid",
 				"startStoryHere": "Start Story Here",
 				"stylesheet": "Stylesheet",
-				"testFromHere": "Test From Here"
+				"testCurrent": "Current",
+				"testFromHere": "Test From Here",
+				"testFromStart": "From Start"
 			},
 			"topBar": {
 				"editJavaScript": "Edit Story JavaScript",
@@ -440,6 +540,7 @@
 		}
 	},
 	"undoChange": {
+		"addPassageImage": "Add Image",
 		"addTag": "Add Tag",
 		"changeTagColor": "Change Tag Color",
 		"newPassage": "New Passage",
@@ -451,5 +552,37 @@
 		"removeTag": "Remove Tag",
 		"renameTag": "Rename Tag",
 		"replaceAllText": "Replace All"
+	},
+	"twine121": {
+		"startScreen": {
+			"title": "TWINE121",
+			"imageAlt": "TWINE121 start screen: the Twine121 nurse mascot in an action pose beside the TWINE121 wordmark, with the version, last updated date, and the Twine project it is based on.",
+			"repoLinkLabel": "Original project on GitHub: github.com/klembot/twinejs",
+			"reopen": "About Twine121"
+		},
+		"aiDisclaimer": {
+			"title": "AI Use Disclaimer",
+			"subtitle": "How this app was made.",
+			"imageAlt": "Twine121 mascot dressed as a nurse",
+			"whatIsThisHeader": "What this covers",
+			"whatIsThis": "This notice is about Twine121 itself — the software you are running right now. Twine, the editor underneath it, is the work of Chris Klimas and years of human contributors; none of that code was generated for this fork. What follows describes only the changes Twine121 adds on top.",
+			"builtWithHeader": "What was built with AI assistance",
+			"builtWith": "Twine121's additions were designed and written with the help of an AI coding assistant (Anthropic's Claude, run through Claude Code). That includes:",
+			"builtWithList": [
+				"Per-story folders, so each story keeps its own images/ and sounds/ alongside it",
+				"The Images & Sounds manager, including the broken-reference checker",
+				"The Screen Layout designer and the stylesheet it generates",
+				"The Add Image and Add Sound tools in the passage editor, and the bundled Howler.js sound wrapper",
+				"The pinned “From Start” and “Current” test buttons",
+				"This startup window and the notice you are reading"
+			],
+			"howHeader": "How the work actually went",
+			"how": "A person decided what to build and why, reviewed the code that came back, ran it in the real app, and threw out what did not work. The AI wrote code and drafted text; it did not choose what this tool should be, and nothing shipped without a human reading it and testing it first.",
+			"accountabilityHeader": "Who is responsible",
+			"accountability": "A person is — not the AI. AI-assisted code is still someone’s code, and every bug in Twine121 belongs to the human who shipped it. If something here breaks, misbehaves, or eats your work, that is a mistake to report and fix, not a quirk to excuse. Third-party code is credited on its own terms: sound playback uses Howler.js, which is MIT-licensed and written by humans.",
+			"whyHeader": "Why say any of this",
+			"why": "Because using AI to make things is ordinary now, and hiding it is not honest. The standard this project holds itself to is simple: if AI helped make something, say so, say what it did, and stay accountable for the result. That is the whole disclaimer.",
+			"gotIt": "Got It"
+		}
 	}
 }

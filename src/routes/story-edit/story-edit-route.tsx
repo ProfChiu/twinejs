@@ -12,6 +12,7 @@ import {
 import {MarqueeablePassageMap} from './marqueeable-passage-map';
 import {PassageFuzzyFinder} from './passage-fuzzy-finder';
 import {StoryEditToolbar} from './toolbar';
+import {useAddPassageImage} from '../../twine121/passage-images';
 import {useInitialPassageCreation} from './use-initial-passage-creation';
 import {usePassageChangeHandlers} from './use-passage-change-handlers';
 import {useViewCenter} from './use-view-center';
@@ -35,6 +36,7 @@ export const InnerStoryEditRoute: React.FC = () => {
 		handleSelectRect
 	} = usePassageChangeHandlers(story);
 	const visibleZoom = useZoomTransition(story.zoom, mainContent.current);
+	const {addImage, available: addImageAvailable} = useAddPassageImage(story);
 
 	useZoomShortcuts(story);
 	useInitialPassageCreation(story, getCenter);
@@ -57,6 +59,7 @@ export const InnerStoryEditRoute: React.FC = () => {
 					onEdit={handleEditPassage}
 					onSelect={handleSelectPassage}
 					onSelectRect={handleSelectRect}
+					onAddImage={addImageAvailable ? addImage : undefined}
 					passages={story.passages}
 					startPassageId={story.startPassage}
 					tagColors={story.tagColors}

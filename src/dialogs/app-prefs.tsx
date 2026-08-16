@@ -86,6 +86,11 @@ export const AppPrefsDialog: React.FC<
 					onChange={handleUseCodeMirrorChange}
 					value={prefs.useCodeMirror}
 				/>
+				<CheckboxButton
+					label={t('dialogs.appPrefs.showTwine121Startup')}
+					onChange={value => dispatch(setPref('showTwine121Startup', value))}
+					value={prefs.showTwine121Startup}
+				/>
 				<p className="font-explanation">
 					{t('dialogs.appPrefs.fontExplanation')}
 				</p>

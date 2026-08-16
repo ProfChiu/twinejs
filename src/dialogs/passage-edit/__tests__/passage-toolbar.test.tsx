@@ -113,15 +113,6 @@ describe('<PassageToolbar>', () => {
 		).toBe('mock-new-passage-name');
 	});
 
-	it('displays a button to test the story from this passage', () => {
-		renderComponent();
-		expect(
-			screen.getByRole('button', {
-				name: 'routes.storyEdit.toolbar.testFromHere'
-			})
-		).toBeVisible();
-	});
-
 	// Need a higher-fidelity mock of <MenuButton> that includes checked state.
 
 	it.todo(
