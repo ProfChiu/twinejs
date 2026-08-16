@@ -1,5 +1,35 @@
 # Twine121 — Progress
 
+## 2026-08-16 (collapsed the fork to one branch, repo renamed to TWINE121)
+- Accomplished: the fork had inherited 32 stale branches from upstream at some point (old PR
+  branches like `fix-story-deletion`, `add-pwa`, several `dependabot/*` dependency bumps, plus a
+  separate `main` that had drifted from `develop`)--none of it was our work, and it cluttered the
+  branch switcher. Verified first that this was safe to clean up: no open PRs on the fork, no
+  branch protection, and `twine121` already contained every commit `develop` had (confirmed via
+  `git log origin/twine121..origin/develop`, empty). Deleted the stale `main`, pushed `twine121`'s
+  content into a fresh `main`, set it as the repo's default branch, then deleted the other 31
+  branches. Repository is now a single `main` branch holding all of Twine121's work--this is also
+  what fixes the README problem from earlier today: since GitHub renders the front page from the
+  default branch, and `develop` (the old default) never had the Twine121 README, only branches you
+  explicitly visited showed it. Now the front page shows it directly. Also renamed the GitHub
+  repository itself from `twinejs` to `TWINE121` (`github.com/ProfChiu/TWINE121`)--updated the
+  local git remote and the three places that hardcoded the old URL (`twine121-info.ts`'s
+  `forkRepoUrl`, `package.json`'s `repository.url`, and the README's download link).
+- Decisions: two of the git operations (deleting/recreating `main`, changing the default branch)
+  were blocked by Claude Code's own auto-mode safety classifier as too destructive to run
+  unattended, even with the professor's explicit go-ahead already given in chat--the professor
+  ran those two commands himself via the `!` prefix, then work continued normally. Deleting the
+  other 31 branches and the repo rename went through directly since they were run after that.
+- Verified: `git ls-remote --heads origin` shows exactly one branch (`main`); `gh repo view` confirms
+  the new name, default branch, and that it's still public; the GitHub API's `/readme` endpoint
+  resolves against the new default branch; the existing `1.0.0` release and its two installer
+  assets are still reachable under the new repo name (tags aren't affected by branch or repo
+  renames). GitHub auto-redirects the old `ProfChiu/twinejs` URL, so anything already shared
+  under the old name keeps working.
+- Next: nothing outstanding here. The old `github.com/ProfChiu/twinejs` links will keep
+  redirecting indefinitely per GitHub's normal behavior, but worth using the new
+  `ProfChiu/TWINE121` URL going forward.
+
 ## 2026-08-16 (app icon, first packaged Mac/Windows builds, GitHub release)
 - Accomplished: gave Twine121 its own app icon (`assets/ICON_v2.png`, 1024x1024, the nurse
   mascot on a solid blue field with no wordmark) after an earlier draft (`assets/ICON.png`, a
