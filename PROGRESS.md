@@ -1,5 +1,23 @@
 # Twine121 — Progress
 
+## 2026-08-16 (start screen backdrop + first push to GitHub)
+- Accomplished: start screen backdrop is now 50% transparent (`rgba(5, 5, 5, 0.5)` instead of
+  solid `#050505`), so the library and toolbar show through dimmed around the artwork — verified
+  live at 1440×900. Then committed **all** uncommitted work — Phase 0 through the start screen,
+  121 files — as one commit and pushed `twine121` to `origin` (ProfChiu/twinejs), which had no
+  such branch before. Commit `92aa2c8c`; branch now tracks `origin/twine121`.
+- Decisions: one commit rather than reconstructed per-phase commits — the file changes are
+  interleaved across phases, so split commits would be guesswork and wouldn't individually build.
+  Per-session history lives here in PROGRESS.md instead. Excluded from the commit and left
+  untracked: `assets/Mockup.psd` (4.5 MB working file) and `ReferenceStartScreen/` (18 MB, the
+  superseded Claude Design export) — say the word to add either. `.claude/` (a machine-local
+  lock file) is now gitignored. `assets/*.png` were committed as the splash's source art.
+- Note: `start.png` has a drop shadow baked into its transparent margin. Invisible against the
+  old solid backdrop; at 50% it reads as a dark halo past the plate's rounded corners. Looks
+  intentional, so left alone — removing it means re-exporting the PNG, not a CSS change.
+- Verified before pushing: 277 suites / 1965 tests passing, `tsc --noEmit` clean, eslint clean.
+- Next: optional 2× re-export of start.png; confirm 1.0.0 as the Twine121 version number.
+
 ## 2026-08-16 (start screen replaced with the designed artwork)
 - Accomplished: replaced yesterday's HTML startup dialog with `assets/start.png` (the Claude
   Design comp) shown full-window on a near-black stage. Click anywhere / Escape / Enter / Space
