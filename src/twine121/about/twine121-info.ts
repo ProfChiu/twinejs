@@ -22,7 +22,7 @@ export const twine121Info = {
 	/** Upstream's home page. */
 	upstreamHomeUrl: 'https://twinery.org',
 	/** Where this fork lives. */
-	forkRepoUrl: 'https://github.com/ProfChiu/twinejs'
+	forkRepoUrl: 'https://github.com/ProfChiu/TWINE121'
 };
 
 /**

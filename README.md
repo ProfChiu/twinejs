@@ -10,7 +10,7 @@ a passage without leaving the editor.
 ### Download
 
 Ready-to-run desktop builds for Mac and Windows are on this repo's
-[Releases](https://github.com/ProfChiu/twinejs/releases) page. Both are
+[Releases](https://github.com/ProfChiu/TWINE121/releases) page. Both are
 unsigned, so on first launch macOS will ask you to right-click the app and
 choose "Open," and Windows SmartScreen may warn about an unrecognized
 publisher--that's expected for a small, independently-built app, and only
