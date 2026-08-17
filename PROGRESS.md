@@ -1,5 +1,25 @@
 # Twine121 — Progress
 
+## 2026-08-16 (committed everything, rebuilt and republished both installers)
+- Accomplished: staged and pushed the day's remaining uncommitted work (26 files--the welcome
+  route removal, the credits page, all the layout/font passes, the updated mascot art) to `main`
+  as one commit. Rebuilt both the Mac and Windows installers from that commit and replaced the
+  `1.0.0` release's assets on GitHub with the new builds (`gh release upload --clobber`)--same
+  file names, new content, download counts reset to 0.
+- Decisions: left the `1.0.0` git tag pointing at the original commit rather than moving it to
+  today's HEAD--tried, and Claude Code's auto-mode classifier blocked the force-push needed to do
+  that (moving a tag rewrites a published ref). Not worth pushing on: the tag pointing at older
+  source while newer binaries sit on the same release is a minor cosmetic mismatch, not something
+  that affects what a student actually downloads and runs.
+- Verified: full test suite, tsc, and eslint clean before committing (one pre-existing flaky test
+  on the full run--confirmed passing in isolation, same `marqueeable-passage-map.test.tsx` flake
+  noted several times today, not caused by this work). Build log clean for both platforms, no
+  Electron re-downloads needed since the binaries were already cached from earlier builds today.
+  Confirmed via the GitHub API that both release assets now have new checksums and sizes matching
+  the fresh local build output.
+- Next: nothing outstanding. Everything from today is committed, pushed, and the public release
+  is current.
+
 ## 2026-08-16 (start screen: 7th "Credits" page ends the onboarding panel instead of looping)
 - Accomplished: added a final page to the onboarding panel--Created by (Wan Chiu), Version,
   Based on, Original project (a real link to klembot/twinejs, opens in a new tab), and License
