@@ -29,14 +29,6 @@ Latin subset only; this UI is English-only. */
 	font-display: swap;
 	font-family: 'Twine121 Meta';
 	font-style: normal;
-	font-weight: 600;
-	src: url('./fonts/rajdhani-600.woff2') format('woff2');
-}
-
-@font-face {
-	font-display: swap;
-	font-family: 'Twine121 Meta';
-	font-style: normal;
 	font-weight: 700;
 	src: url('./fonts/rajdhani-700.woff2') format('woff2');
 }
@@ -50,17 +42,6 @@ Latin subset only; this UI is English-only. */
 	to {
 		opacity: 1;
 		transform: none;
-	}
-}
-
-@keyframes twine121-start-screen-hint-pulse {
-	0%,
-	100% {
-		opacity: 0.35;
-	}
-
-	50% {
-		opacity: 1;
 	}
 }
 
@@ -173,7 +154,8 @@ Latin subset only; this UI is English-only. */
 }
 
 .twine121-start-screen-pill-row {
-	padding-left: 12.5%;
+	display: flex;
+	justify-content: flex-end;
 	width: 100%;
 }
 
@@ -209,12 +191,13 @@ Latin subset only; this UI is English-only. */
 }
 
 .twine121-start-screen-info {
-	display: flex;
-	flex-direction: column;
-	gap: 3.5cqh;
-	left: 56%;
+	bottom: 25.5%;
+	left: 66%;
 	position: absolute;
 	right: 2.5%;
+	/* Well clear of the head block's bottom edge (pill + wordmark + subtitle,
+	whose combined height varies a little with font metrics)--this used to sit
+	at 32% and could overlap the subtitle at some window sizes. */
 	top: 38%;
 	z-index: 3;
 }
@@ -223,61 +206,146 @@ Latin subset only; this UI is English-only. */
 	color: rgba(255, 255, 255, 0.82);
 	font-family: 'Twine121 Meta', sans-serif;
 	font-size: min(3.5cqh, 2.5cqw);
-	font-weight: 600;
+	font-weight: 700;
 	letter-spacing: 0.04em;
 	line-height: 1.35;
 	margin: 0;
+	text-align: right;
+	width: 100%;
 }
 
-.twine121-start-screen-meta {
-	column-gap: 2cqw;
-	display: grid;
+.twine121-start-screen-onboarding {
+	/* Transparent rather than a filled panel, so it reads as part of the same
+	surface as the frame behind it instead of a separate box. */
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 10px;
+	box-sizing: border-box;
+	cursor: default;
+	display: flex;
+	flex-direction: column;
+	gap: 1.2cqh;
+	height: 100%;
+	padding: 2cqh 2cqw;
+}
+
+.twine121-start-screen-onboarding-title {
+	color: #fff;
+	font-family: 'Twine121 Display', sans-serif;
+	font-size: min(2.6cqh, 1.9cqw);
+	font-weight: 700;
+	margin: 0;
+}
+
+.twine121-start-screen-onboarding-body {
+	color: rgba(255, 255, 255, 0.78);
+	flex: 1;
 	font-family: 'Twine121 Meta', sans-serif;
-	font-size: 2.6cqh;
-	grid-template-columns: 14cqw 1fr;
-	letter-spacing: 0.16em;
-	margin: 0;
-	row-gap: 1.4cqh;
-	text-transform: uppercase;
+	font-size: min(2.1cqh, 1.55cqw);
+	line-height: 1.4;
+	overflow: hidden auto;
 }
 
-.twine121-start-screen-meta-label {
+.twine121-start-screen-onboarding-body p {
+	margin: 0 0 0.8em;
+}
+
+.twine121-start-screen-onboarding-body p:last-child {
+	margin-bottom: 0;
+}
+
+.twine121-start-screen-onboarding-body a {
+	color: #fff;
+}
+
+.twine121-start-screen-credits {
+	column-gap: 1.5cqw;
+	display: grid;
+	flex: 1;
+	font-family: 'Twine121 Meta', sans-serif;
+	font-size: min(2.1cqh, 1.55cqw);
+	grid-template-columns: auto 1fr;
+	margin: 0;
+	row-gap: 1cqh;
+}
+
+.twine121-start-screen-credits dt {
 	color: rgba(255, 255, 255, 0.52);
-	font-weight: 400;
-	margin: 0;
 }
 
-.twine121-start-screen-meta-value {
+.twine121-start-screen-credits dd {
 	color: rgba(255, 255, 255, 0.9);
 	font-weight: 700;
 	margin: 0;
 }
 
-.twine121-start-screen-meta-value a {
+.twine121-start-screen-credits a {
 	color: rgba(255, 255, 255, 0.9);
-	letter-spacing: 0.04em;
-	text-decoration: none;
-	text-transform: none;
 }
 
-.twine121-start-screen-meta-value a:hover,
-.twine121-start-screen-meta-value a:focus-visible {
-	color: rgba(255, 255, 255, 0.7);
+.twine121-start-screen-credits a:hover,
+.twine121-start-screen-credits a:focus-visible {
+	color: #fff;
 }
 
-.twine121-start-screen-meta-value a:focus-visible {
-	outline: 2px solid #fff;
-	outline-offset: 3px;
+/* The link text is the URL itself; this note exists for screen readers only. */
+.twine121-start-screen-visually-hidden {
+	height: 1px;
+	left: -9999px;
+	overflow: hidden;
+	position: absolute;
+	width: 1px;
+}
+
+.twine121-start-screen-onboarding-footer {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.twine121-start-screen-onboarding-progress {
+	color: rgba(255, 255, 255, 0.45);
+	font-family: 'Twine121 Meta', sans-serif;
+	font-size: 1.8cqh;
+	letter-spacing: 0.1em;
+}
+
+.twine121-start-screen-onboarding-next {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	border-radius: 8px;
+	color: #fff;
+	cursor: pointer;
+	font-family: 'Twine121 Meta', sans-serif;
+	font-size: 1.9cqh;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	padding: 0.6em 1.4em;
+	text-transform: uppercase;
+}
+
+.twine121-start-screen-onboarding-next:hover,
+.twine121-start-screen-onboarding-next:focus-visible {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.twine121-start-screen-onboarding-next:disabled {
+	border-color: rgba(255, 255, 255, 0.15);
+	color: rgba(255, 255, 255, 0.3);
+	cursor: default;
+}
+
+.twine121-start-screen-onboarding-next:disabled:hover {
+	background: transparent;
 }
 
 .twine121-start-screen-cta {
 	align-items: center;
 	display: flex;
-	gap: 3cqh;
-	left: 74%;
+	justify-content: flex-end;
 	position: absolute;
+	right: 2.5%;
 	top: 76%;
-	transform: translateX(-50%);
 	white-space: nowrap;
 	z-index: 3;
 }
@@ -324,15 +392,6 @@ Latin subset only; this UI is English-only. */
 	font-size: 12px;
 }
 
-.twine121-start-screen-hint {
-	animation: twine121-start-screen-hint-pulse 2.2s ease-in-out infinite;
-	color: rgba(255, 255, 255, 0.55);
-	font-family: 'Twine121 Meta', sans-serif;
-	font-size: 2.4cqh;
-	letter-spacing: 0.28em;
-	text-transform: uppercase;
-}
-
 /* z-index above the head/info/cta text (each z-index: 3)--the mascot is meant
 to overlap the text partially, by design. */
 .twine121-start-screen-mascot {
@@ -347,17 +406,19 @@ to overlap the text partially, by design. */
 	z-index: 6;
 }
 
-.twine121-visually-hidden {
-	height: 1px;
-	left: -9999px;
-	overflow: hidden;
+.twine121-start-screen-version {
+	bottom: 1.5cqh;
+	color: rgba(255, 255, 255, 0.3);
+	font-family: 'Twine121 Meta', sans-serif;
+	font-size: 1.6cqh;
+	letter-spacing: 0.08em;
 	position: absolute;
-	width: 1px;
+	right: 2cqw;
+	z-index: 3;
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.twine121-start-screen-frame,
-	.twine121-start-screen-hint,
 	.twine121-start-screen-mascot,
 	.twine121-start-screen-start-button.is-pressed {
 		animation: none;

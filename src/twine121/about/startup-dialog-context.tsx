@@ -38,15 +38,15 @@ export const StartupDialogProvider: React.FC = ({children}) => {
 	const [open, setOpen] = React.useState<OpenDialog>('none');
 	const autoOpened = React.useRef(false);
 
-	// At most once per launch. The ref (not a bare mount-only effect) is what
-	// makes that true on a first run: the app shows the welcome route first, and
-	// this should wait until that's done rather than covering it.
+	// At most once per launch. The ref (not a bare mount-only effect) guards
+	// against StrictMode's double-invoke and any re-render before the dialog
+	// actually opens.
 	React.useEffect(() => {
-		if (!autoOpened.current && prefs.showTwine121Startup && prefs.welcomeSeen) {
+		if (!autoOpened.current && prefs.showTwine121Startup) {
 			autoOpened.current = true;
 			setOpen('startScreen');
 		}
-	}, [prefs.showTwine121Startup, prefs.welcomeSeen]);
+	}, [prefs.showTwine121Startup]);
 
 	const value = React.useMemo(
 		() => ({

@@ -1,3 +1,4 @@
+import {license as packageLicense} from '../../../../package.json';
 import {formatLastUpdated, twine121Info} from '../twine121-info';
 
 describe('twine121Info', () => {
@@ -16,6 +17,10 @@ describe('twine121Info', () => {
 		expect(twine121Info.upstreamRepoUrl).toBe(
 			'https://github.com/klembot/twinejs'
 		);
+	});
+
+	it('matches the license declared in package.json', () => {
+		expect(twine121Info.license).toBe(packageLicense);
 	});
 });
 

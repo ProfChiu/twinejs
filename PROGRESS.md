@@ -1,5 +1,123 @@
 # Twine121 — Progress
 
+## 2026-08-16 (start screen: 7th "Credits" page ends the onboarding panel instead of looping)
+- Accomplished: added a final page to the onboarding panel--Created by (Wan Chiu), Version,
+  Based on, Original project (a real link to klembot/twinejs, opens in a new tab), and License
+  (GPL-3.0, now on `twine121Info` alongside the other identity fields, matching package.json's
+  own `license` field). Reaching it is the actual end now: the Next button gets a `disabled`
+  attribute and a greyed-out style, and clicking it does nothing further--no more wrapping back to
+  page 1, which is what happened before this page existed. This effectively brings back the
+  Version/Based On/Original Project info that got trimmed down to just a version subscript
+  earlier today, just relocated to a page you reach deliberately instead of a permanent fixture.
+- Decisions: new test added to `twine121-info.test.ts` asserting `twine121Info.license` matches
+  package.json's `license` field, so the two can't silently drift apart the way the version
+  numbers are deliberately allowed to (twine121Info's version is supposed to differ from
+  package.json's--the license should not).
+- Verified: live in a real browser--clicking Next six times lands on "Credits" showing all five
+  fields with the correct values, the Next button is genuinely disabled (not just styled to look
+  it--checked the DOM `disabled` property), clicking it does nothing, and the repo link opens
+  `github.com/klembot/twinejs` in a new tab while leaving the screen up. 275 suites, tsc and
+  eslint clean (one unrelated pre-existing flaky test on the full run, confirmed passing in
+  isolation--same `marqueeable-passage-map.test.tsx` flakiness noted before).
+- Next: nothing outstanding here. Still uncommitted on `main`.
+
+## 2026-08-16 (start screen: dropped a font weight, narrower onboarding panel, updated mascot art)
+- Accomplished: three more things. First, updated `assets/start-pose1.png` with a refined version
+  of the mascot--same canvas size and silhouette bounding box as before, so no CSS positioning
+  needed to change; just re-vendored the file. Second, discussed the start screen's font weight
+  count (5 total: Display 700/900, Meta 400/600/700) and, on the professor's go-ahead, dropped
+  Rajdhani 600--the subtitle and the Next button now use 700, same weight as the `<strong>`
+  emphasis already inside the onboarding card text, rather than a separate near-identical weight.
+  Deleted the now-unused `rajdhani-600.woff2` file. Third, from an annotated screenshot: narrowed
+  the onboarding panel (`left: 66%` instead of `56%`, about a 20% width reduction).
+- Decisions: narrowing the panel while keeping the same font size meant longer paragraphs wrapped
+  to more lines than before--live-checked and found the longest page (the two-sentence autosave/
+  browser-storage paragraph) overflowed by 23px at the new width. Fixed by reclaiming space from
+  the panel's own margins (moved `top` from 42% to 38%, `bottom` from 27% to 25.5%) rather than
+  widening it back out or shrinking the type, since the professor asked specifically for narrower,
+  not smaller text. First attempt at the new margins overcorrected into a 7px overlap with the
+  Start button row--caught by measurement, not by eye, and rebalanced.
+- Verified: live across the same five viewport sizes as the last two rounds of changes--zero
+  overflow on all 6 pages at every size, positive (non-overlapping) gaps above and below the panel
+  everywhere, bold emphasis inside the card text now visibly using the same weight as the subtitle
+  (confirming the font consolidation rendered correctly, not just compiled cleanly). 275 suites /
+  1956 tests, tsc and eslint clean.
+- Next: nothing outstanding here. Still uncommitted on `main`.
+
+## 2026-08-16 (start screen: flush-right pill/Start button, dropped "Click Anywhere", fixed a real overlap)
+- Accomplished: from an annotated screenshot--the "A TEACHING FORK OF TWINE" pill and the Start
+  button are now flush with the frame's right edge (previously the pill was left-padded rather
+  than aligned, and Start was horizontally centered around 74%). Removed the "CLICK ANYWHERE" hint
+  text entirely, plus its now-dead CSS (`@keyframes ...-hint-pulse`, the `.twine121-start-screen-hint`
+  rule, its reduced-motion entry) and its locale key. The subtitle/onboarding-panel overlap visible
+  in that screenshot is fixed--the panel's `top` moved from 32% to 42%, well clear of the head
+  block's actual bottom edge.
+- Decisions: didn't fully pin down why the screenshot showed overlap when my own live checks at
+  1440x900 and 1100x700 right after the previous change showed a clean gap--the frame's aspect
+  ratio is fixed (1600:845 always), so relative positions should be identical at any window size,
+  and re-testing five different viewport shapes just now (including short/wide ones) reproduced no
+  overlap at the old spacing either. Likely an Electron window that predated the rebuild. Fixed it
+  anyway with a wide safety margin rather than chasing the exact cause, since the fix is free and
+  low-risk.
+- Verified: live in a real browser across five viewport sizes (1440x900, 1100x700, 1000x700,
+  1000x650, and a short 1280x620)--identical results at every size: 55px gap between the subtitle
+  and the panel, 19px gap above the Start button, pill and Start button both flush to the same
+  right margin, zero text overflow on all 6 onboarding pages, hint fully gone from the DOM. 275
+  suites, tsc and eslint clean. (Full-suite jest runs hit a different unrelated test failing each
+  time--`ai-disclaimer-dialog.test.tsx` once, `back-button.test.tsx` the next--each passes cleanly
+  in isolation; this is the same pre-existing worker-pool flakiness noted earlier today and in
+  prior sessions, not caused by this work.)
+- Next: nothing outstanding here. Still uncommitted on `main`.
+
+## 2026-08-16 (start screen polish: subtitle grouped with the wordmark, bigger onboarding panel)
+- Accomplished: three small layout changes to the onboarding panel added earlier today. The
+  subtitle ("A teaching fork of Twine, built for GAME 121.") moved out of the info block and into
+  the head block, right under the TWINE121 wordmark, right-aligned to match it--previously there
+  was a wide empty gap between the wordmark and the subtitle. The onboarding panel now fills the
+  full space between the head block and the CTA row (anchored by top/bottom percentages instead of
+  a fixed cqh height), instead of a fixed height that left the same info block far smaller than the
+  frame comfortably allowed. Its background is now transparent instead of a translucent black fill,
+  so it reads as part of the same surface as the frame instead of a separate boxed panel--only a
+  thin border still marks its edges as a "window."
+- Verified live in a real browser at two window widths: all 6 onboarding pages still fit with zero
+  overflow at the larger panel size (confirmed via `scrollHeight`/`clientHeight`, not just
+  eyeballed)--the extra room actually gives real breathing space now instead of exactly fitting.
+  Comfortable ~19px gap above the Start button row on every page. 275 suites / 1956 tests, tsc and
+  eslint clean.
+- Next: nothing outstanding here. Still uncommitted on `main`.
+
+## 2026-08-16 (old welcome screen folded into the start screen; meta rows trimmed to a version tag)
+- Accomplished: removed the separate first-run "Hi!/New here?/autosave/That's it!" welcome
+  route entirely (it gated the whole app behind a `welcomeSeen` pref until seen)--its content
+  wasn't discarded, though. All four original card texts (kept verbatim, same locale strings, out
+  of respect for upstream's original authors) now live inside a small paginated panel on the
+  TWINE121 start screen itself, in the space the old Version/Last Updated/Based On/Original
+  Project meta table used to occupy. A Next button pages through them (with a 1-based "n / 6"
+  counter, wrapping back to page 1 after the last); clicking Start still skips past all of it
+  immediately from any page, same as before. The meta table is gone--only the version number
+  survives, as a small "v1.0.0" subscript in the frame's bottom-right corner.
+- Decisions: the two 3-paragraph cards (autosave/browser-storage) needed splitting to fit the
+  panel. First tried grouping 2 of the 3 paragraphs per page--live-verified that overflowed and
+  silently clipped text with no scroll affordance visible to the user. Fixed by splitting to one
+  paragraph per page instead (6 pages total, not 4), which is also literally what was asked for
+  ("for long paragraph, add another section"). Bumped the panel's height and trimmed a gap
+  elsewhere in the layout to give it breathing room without colliding with the Start button row.
+  Caught a second live-only bug the same way: the "New here?" page's Cookbook link had no
+  `target="_blank"`, so clicking it would have navigated the whole app away to twinery.org instead
+  of opening a tab--added it to the locale string, matching how the (now-removed) GitHub link
+  handled this. `welcomeSeen` is removed from the prefs store entirely (defaults, types, fakes)
+  since nothing gates on it anymore; `src/routes/welcome/` and `src/components/welcome/` are
+  deleted.
+- Verified: live in a real browser, not just tests--stepped through all 6 pages at the final
+  sizing and confirmed zero overflow and a clean gap above the Start button on every one
+  (measured via `scrollHeight`/`clientHeight`, not eyeballed); confirmed the Cookbook link opens a
+  new tab and leaves the screen up; confirmed Next and the Cookbook link never dismiss the screen
+  while a background click still does. 275 suites / 1956 tests, tsc and eslint clean. (One
+  transient failure in `marqueeable-passage-map.test.tsx` on the full-suite run, unrelated to any
+  of this--passes cleanly in isolation, same pre-existing flakiness noted before.)
+- Next: nothing outstanding here. Everything is still uncommitted on `main`--say the word to
+  commit and push.
+
 ## 2026-08-16 (collapsed the fork to one branch, repo renamed to TWINE121)
 - Accomplished: the fork had inherited 32 stale branches from upstream at some point (old PR
   branches like `fix-story-deletion`, `add-pwa`, several `dependabot/*` dependency bumps, plus a

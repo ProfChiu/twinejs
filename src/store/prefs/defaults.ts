@@ -34,6 +34,5 @@ export const defaults = (): PrefsState => ({
 	storyListTagFilter: [],
 	storyTagColors: {},
 	showTwine121Startup: true,
-	useCodeMirror: true,
-	welcomeSeen: false
+	useCodeMirror: true
 });

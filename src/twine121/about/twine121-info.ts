@@ -22,7 +22,9 @@ export const twine121Info = {
 	/** Upstream's home page. */
 	upstreamHomeUrl: 'https://twinery.org',
 	/** Where this fork lives. */
-	forkRepoUrl: 'https://github.com/ProfChiu/TWINE121'
+	forkRepoUrl: 'https://github.com/ProfChiu/TWINE121',
+	/** SPDX identifier, matching package.json's "license" field and LICENSE. */
+	license: 'GPL-3.0'
 };
 
 /**

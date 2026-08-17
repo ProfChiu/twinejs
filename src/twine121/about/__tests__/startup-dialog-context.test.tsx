@@ -20,7 +20,7 @@ const Opener: React.FC = () => {
 describe('<StartupDialogProvider>', () => {
 	function renderComponent(prefs?: FakeStateProviderProps['prefs']) {
 		return render(
-			<FakeStateProvider prefs={{welcomeSeen: true, ...prefs}}>
+			<FakeStateProvider prefs={prefs}>
 				<StartupDialogProvider>
 					<Opener />
 				</StartupDialogProvider>
@@ -38,11 +38,6 @@ describe('<StartupDialogProvider>', () => {
 
 	it("doesn't show it when the preference is off", () => {
 		renderComponent({showTwine121Startup: false});
-		expect(startScreen()).not.toBeInTheDocument();
-	});
-
-	it("doesn't show it before the welcome route has been seen", () => {
-		renderComponent({showTwine121Startup: true, welcomeSeen: false});
 		expect(startScreen()).not.toBeInTheDocument();
 	});
 

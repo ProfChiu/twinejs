@@ -130,10 +130,6 @@ export interface PrefsState {
 	 * Use CodeMirror for text editing?
 	 */
 	useCodeMirror: boolean;
-	/**
-	 * Has the user been shown the welcome route?
-	 */
-	welcomeSeen: boolean;
 }
 
 export type PrefsDispatch = React.Dispatch<PrefsAction>;
